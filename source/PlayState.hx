@@ -10,6 +10,8 @@ import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
 import flixel.util.FlxPoint;
 import openfl.Assets;
+import flixel.ui.FlxButton;
+import flixel.ui.FlxVirtualPad;
 
 class PlayState extends FlxState
 {
@@ -27,9 +29,16 @@ class PlayState extends FlxState
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
-	
+#if mobile
+public static var virtualPad:FlxVirtualPad;
+#end	
 	override public function create():Void
 	{
+		#if mobile
+virtualPad = new FlxVirtualPad(FULL, NONE);
+add(virtualPad);
+#end
+
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
 		background = new FlxTilemap();

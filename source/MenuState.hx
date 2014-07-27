@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
+import flixel.ui.FlxButton;
+import flixel.ui.FlxVirtualPad;
 
 /**
  * ...
@@ -28,8 +30,21 @@ class MenuState extends FlxState
 	// This will indicate what the pointer is pointing at
 	private var _option:Int;     
 	
+	#if mobile
+public static var virtualPad:FlxVirtualPad;
+#end	
+
+
+	
 	override public function create():Void 
 	{
+		
+
+	#if mobile
+virtualPad = new FlxVirtualPad(FULL, NONE);
+add(virtualPad);
+#end
+	
 		FlxG.mouse.visible = false;
 		FlxG.state.bgColor = 0xFF101414;
 		
@@ -68,12 +83,18 @@ class MenuState extends FlxState
 		_pointer.x = _text3.x - _pointer.width - 10;
 		add(_pointer);
 		_option = 0;
-		
+
 		super.create();
 	}
 	
 	override public function update():Void 
 	{
+	var _up:Bool = false;
+	var _down:Bool = false;
+	var _left:Bool = false;
+	var _right:Bool = false;
+
+		
 		if (FlxG.mouse.wheel != 0)
 		{
 			FlxG.camera.zoom += (FlxG.mouse.wheel / 10);
@@ -100,27 +121,49 @@ class MenuState extends FlxState
 			case 2:
 				_pointer.y = _text5.y;
 		}
+		#if mobile
+		_up = FlxG.keys.anyPressed(["UP", "W"]);
+		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
+		_left = FlxG.keys.anyPressed(["LEFT", "A"]);
+		_right = FlxG.keys.anyPressed(["RIGHT", "D"]);	
+		#end
+		#if mobile
+		_up = _up || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED;
+		_down = _down || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED;
+		_left  = _left || MenuState.virtualPad.buttonLeft.status == FlxButton.PRESSED;
+		_right = _right || MenuState.virtualPad.buttonRight.status == FlxButton.PRESSED;
+		#end
+
 		
-		if (FlxG.keys.justPressed.UP)
+		if (MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) 
+		{
+			// A goofy format, because % doesn't work on negative numbers
+			_option = (_option + OPTIONS - 1) % OPTIONS; 
+			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
+		}
+		if (FlxG.keys.justPressed.UP) 
 		{
 			// A goofy format, because % doesn't work on negative numbers
 			_option = (_option + OPTIONS - 1) % OPTIONS; 
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
 		}
 		
-		if (FlxG.keys.justPressed.DOWN)
+		if (FlxG.keys.justPressed.DOWN || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED)
 		{
 			_option = (_option + OPTIONS + 1) % OPTIONS;
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
 		}
 		
-		if (FlxG.keys.anyJustPressed(["SPACE", "ENTER", "C"]))
+		if (FlxG.keys.justPressed.RIGHT || MenuState.virtualPad.buttonRight.status == FlxButton.PRESSED)
 		{
 			switch (_option) 
 			{
 				case 0:
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
+					//#if mobile
+					//virtualPad = FlxDestroyUtil.destroy(virtualPad);	
+					//#end
 				case 1:
 					FlxG.openURL("http://the1andonlydave.github.com");
 				case 2:

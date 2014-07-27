@@ -6,6 +6,8 @@ import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.ui.FlxButton;
+import flixel.ui.FlxVirtualPad;
 
 /**
  * ...
@@ -70,7 +72,27 @@ class Player extends FlxSprite
 	{
 		// Reset to 0 when no button is pushed
 		acceleration.x = 0; 
+			var _up:Bool = false;
+var _down:Bool = false;
+var _left:Bool = false;
+var _right:Bool = false;
 		
+		#if !FLX_NO_KEYBOARD
+_up = FlxG.keys.anyPressed(["UP", "W"]);
+_down = FlxG.keys.anyPressed(["DOWN", "S"]);
+_left = FlxG.keys.anyPressed(["LEFT", "A"]);
+_right = FlxG.keys.anyPressed(["RIGHT", "D"]);
+#end
+
+#if mobile
+_up = _up || PlayState.virtualPad.buttonUp.status == FlxButton.PRESSED;
+_down = _down || PlayState.virtualPad.buttonDown.status == FlxButton.PRESSED;
+_left  = _left || PlayState.virtualPad.buttonLeft.status == FlxButton.PRESSED;
+_right = _right || PlayState.virtualPad.buttonRight.status == FlxButton.PRESSED;
+#end
+
+
+
 		if (climbing) 
 		{
 			// Stop falling if you're climbing a ladder
@@ -81,12 +103,12 @@ class Player extends FlxSprite
 			acceleration.y = GRAVITY;
 		}
 		
-		if (FlxG.keys.anyPressed(["LEFT", "A"]))
+		if (FlxG.keys.anyPressed(["LEFT", "A"]) || PlayState.virtualPad.buttonLeft.status == FlxButton.PRESSED)
 		{
 			flipX = true;
 			acceleration.x = -drag.x;
 		}
-		else if (FlxG.keys.anyPressed(["RIGHT", "D"]))
+		else if (FlxG.keys.anyPressed(["RIGHT", "D"]) || PlayState.virtualPad.buttonRight.status == FlxButton.PRESSED)
 		{
 			flipX = false;
 			acceleration.x = drag.x;				
@@ -161,7 +183,7 @@ class Player extends FlxSprite
 	
 	private function climb():Void
 	{
-		if (FlxG.keys.anyPressed(["UP", "W"]))
+		if (FlxG.keys.anyPressed(["UP", "W"]) || PlayState.virtualPad.buttonUp.status == FlxButton.PRESSED)
 		{
 			if (_onLadder) 
 			{
@@ -174,7 +196,7 @@ class Player extends FlxSprite
 				velocity.y = - RUN_SPEED;
 			}
 		}
-		else if (FlxG.keys.anyPressed(["DOWN", "S"]))
+		else if (FlxG.keys.anyPressed(["DOWN", "S"]) || PlayState.virtualPad.buttonDown.status == FlxButton.PRESSED)
 		{
 			if (_onLadder) 
 			{
@@ -191,7 +213,7 @@ class Player extends FlxSprite
 	
 	private function jump():Void
 	{
-		if (FlxG.keys.anyJustPressed(_jumpKeys))
+		if (FlxG.keys.anyJustPressed(_jumpKeys) || PlayState.virtualPad.buttonUp.status == FlxButton.PRESSED)
 		{
 			if ((velocity.y == 0) || (_timesJumped < JUMPS_ALLOWED)) // Only allow two jumps
 			{
@@ -203,7 +225,7 @@ class Player extends FlxSprite
 		}
 		
 		// You can also use space or any other key you want
-		if ((FlxG.keys.anyPressed(_jumpKeys)) && (_jumpTime >= 0)) 
+		if (((FlxG.keys.anyPressed(_jumpKeys)) || PlayState.virtualPad.buttonUp.status == FlxButton.PRESSED) && (_jumpTime >= 0)) 
 		{
 			climbing = false;
 			_jumpTime += FlxG.elapsed;
