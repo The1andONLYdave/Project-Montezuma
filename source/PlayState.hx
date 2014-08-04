@@ -12,6 +12,7 @@ import flixel.util.FlxPoint;
 import openfl.Assets;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
+import admob.AD;
 
 class PlayState extends FlxState
 {
@@ -29,21 +30,19 @@ class PlayState extends FlxState
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
-#if mobile
-public static var virtualPad:FlxVirtualPad;
-#end	
+	public static var virtualPad2:FlxVirtualPad;
+	
+	
+	
 	override public function create():Void
 	{
-		#if mobile
-virtualPad = new FlxVirtualPad(FULL, NONE);
-add(virtualPad);
-#end
-
+		AD.init("ca-app-pub-8761501900041217/8764631680", AD.LEFT, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
+		AD.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
 		background = new FlxTilemap();
 		ladders = new FlxTilemap();
-		
+	
 		_restart = false;
 		
 		add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
@@ -51,6 +50,10 @@ add(virtualPad);
 		
 		add(map.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1.csv"), "assets/art/simples_pimples.png", 16, 16));
 		add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
+		
+		virtualPad2 = new FlxVirtualPad(FULL, A);
+		virtualPad2.setAll("alpha", 0.3);
+		add(virtualPad2);	
 		
 		FlxG.camera.setBounds(0, 0, map.width, map.height);
 		FlxG.worldBounds.set(0, 0, map.width, map.height);
@@ -77,6 +80,7 @@ add(virtualPad);
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player, 1); 
+		
 		
 		// Set up the enemies here
 		_enemies = new FlxGroup();
@@ -112,13 +116,14 @@ add(virtualPad);
 		add(_score);
 		
 		// Set up the game over text
-		_text1 = new FlxText(0, 30, FlxG.width, "Press R to Restart");
+		_text1 = new FlxText(0, 30, FlxG.width, "Press R or Button to Restart.");
 		_text1.setFormat(null, 40, FlxColor.RED, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text1.visible = false;
 		_text1.antialiasing = true;
 		_text1.scrollFactor.set(0, 0);
 		// Add last so it goes on top, you know the drill.
 		add(_text1); 
+
 		
 		#if flash
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.mp3", 0.5);
@@ -142,9 +147,11 @@ add(virtualPad);
 		if (!player.alive)
 		{
 			_text1.visible = true;
+			AD.hide();
 			
-			if (FlxG.keys.justPressed.R) 
+			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
+				AD.show();
 				_restart = true;
 			}
 		}

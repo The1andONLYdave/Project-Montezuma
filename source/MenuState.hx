@@ -30,9 +30,9 @@ class MenuState extends FlxState
 	// This will indicate what the pointer is pointing at
 	private var _option:Int;     
 	
-	#if mobile
+
 public static var virtualPad:FlxVirtualPad;
-#end	
+	
 
 
 	
@@ -40,10 +40,10 @@ public static var virtualPad:FlxVirtualPad;
 	{
 		
 
-	#if mobile
-virtualPad = new FlxVirtualPad(FULL, NONE);
+
+virtualPad = new FlxVirtualPad(UP_DOWN, A);
 add(virtualPad);
-#end
+
 	
 		FlxG.mouse.visible = false;
 		FlxG.state.bgColor = 0xFF101414;
@@ -51,7 +51,7 @@ add(virtualPad);
 		// Each word is its own object so we can position them independantly
 		_text1 = new FlxText( -220, FlxG.height / 4, 320, "Project");
 		_text1.moves = true;
-		_text1.size = 40;
+		_text1.size = 20;
 		//rgb 0 162 232
 		_text1.color = 0x00A2E8;
 		_text1.antialiasing = true;
@@ -121,27 +121,17 @@ add(virtualPad);
 			case 2:
 				_pointer.y = _text5.y;
 		}
-		#if mobile
 		_up = FlxG.keys.anyPressed(["UP", "W"]);
 		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
 		_left = FlxG.keys.anyPressed(["LEFT", "A"]);
 		_right = FlxG.keys.anyPressed(["RIGHT", "D"]);	
-		#end
-		#if mobile
 		_up = _up || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED;
 		_down = _down || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED;
 		_left  = _left || MenuState.virtualPad.buttonLeft.status == FlxButton.PRESSED;
-		_right = _right || MenuState.virtualPad.buttonRight.status == FlxButton.PRESSED;
-		#end
+		_right = _right || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED;
 
 		
-		if (MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) 
-		{
-			// A goofy format, because % doesn't work on negative numbers
-			_option = (_option + OPTIONS - 1) % OPTIONS; 
-			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
-		}
-		if (FlxG.keys.justPressed.UP) 
+		if (FlxG.keys.justPressed.UP || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) 
 		{
 			// A goofy format, because % doesn't work on negative numbers
 			_option = (_option + OPTIONS - 1) % OPTIONS; 
@@ -154,7 +144,7 @@ add(virtualPad);
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
 		}
 		
-		if (FlxG.keys.justPressed.RIGHT || MenuState.virtualPad.buttonRight.status == FlxButton.PRESSED)
+		if (FlxG.keys.justPressed.RIGHT || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED)
 		{
 			switch (_option) 
 			{
