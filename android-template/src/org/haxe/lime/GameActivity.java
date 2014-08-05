@@ -171,7 +171,11 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	////////////////////////////////////////////////////////////////////////
 	static public void loadAd() {
-		AdRequest adRequest = new AdRequest.Builder().build();
+		//AdRequest adRequest = new AdRequest.Builder().build();
+		AdRequest adRequest = new AdRequest.Builder()
+        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)       // Emulator
+        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE")
+        .build();
 		adView.loadAd(adRequest);
 	}
 	
@@ -193,7 +197,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 				adMobLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT); 
        
                 if(x == 0) {
-					adMobLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+					adMobLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 }
 				else if(x == 1) {
 					adMobLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -244,7 +248,11 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	static public void loadInterstitial() {
-		AdRequest adRequest = new AdRequest.Builder().build();
+		//AdRequest adRequest = new AdRequest.Builder().build();
+		AdRequest adRequest = new AdRequest.Builder()
+        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)       // Emulator
+        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE")
+        .build();
 		interstitial.loadAd(adRequest);
 	}
 	
