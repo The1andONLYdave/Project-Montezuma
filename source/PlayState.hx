@@ -1,6 +1,7 @@
 package;
 
 import flixel.effects.particles.FlxEmitter;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
@@ -79,8 +80,8 @@ class PlayState extends FlxState
 		add(player = new Player(112, 92, this, _gibs, _bullets));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
-		FlxG.camera.follow(player, 1); 
-		
+		FlxG.camera.follow(player); 
+		FlxG.camera.style = FlxCamera.STYLE_SCREEN_BY_SCREEN;
 		
 		// Set up the enemies here
 		_enemies = new FlxGroup();

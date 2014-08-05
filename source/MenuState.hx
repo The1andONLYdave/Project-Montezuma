@@ -30,7 +30,8 @@ class MenuState extends FlxState
 	// This will indicate what the pointer is pointing at
 	private var _option:Int;     
 	
-
+	private var moveIt:Bool = false;
+	
 public static var virtualPad:FlxVirtualPad;
 	
 
@@ -59,7 +60,7 @@ add(virtualPad);
 		add(_text1);
 		
 		// Base everything off of text1, so if we change color or size, only have to change one
-		_text2 = new FlxText(FlxG.width - 50, FlxG.height / 2.5, 320, "Montezumasrevenge");
+		_text2 = new FlxText( 80, FlxG.height / 2.5, 320, "Montezumasrevenge");
 		_text2.moves = true;
 		_text2.size = _text1.size;
 		_text2.color = _text1.color;
@@ -68,11 +69,11 @@ add(virtualPad);
 		add(_text2);
 		
 		// Set up the menu options
-		_text3 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3, 150, "Play");
-		_text4 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 30, 150, "Visit our Webpage");
-		_text5 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 60, 150, "Visit flixel.org");
+		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play");
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit our Webpage");
+		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 60, 150, "Visit flixel.org");
 		_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
-		_text3.size = _text4.size = _text5.size = 16;
+		_text3.size = _text4.size = _text5.size = 8;
 		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
 		add(_text3);
 		add(_text4);
@@ -85,6 +86,7 @@ add(virtualPad);
 		_option = 0;
 
 		super.create();
+		FlxG.sound.playMusic("assets/music/Menubackground.ogg", 0.5);
 	}
 	
 	override public function update():Void 
@@ -95,18 +97,13 @@ add(virtualPad);
 	var _right:Bool = false;
 
 		
-		if (FlxG.mouse.wheel != 0)
-		{
-			FlxG.camera.zoom += (FlxG.mouse.wheel / 10);
-		}
-		
 		// Stop the texts when they reach their designated position
 		if (_text1.x > FlxG.width / 5)	
 		{
 			_text1.velocity.x = 0;
 		}
 		
-		if (_text2.x < FlxG.width / 2.5) 
+		if (_text2.x < FlxG.width / 0.5) 
 		{
 			_text2.velocity.x = 0;
 		}
@@ -131,17 +128,22 @@ add(virtualPad);
 		_right = _right || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED;
 
 		
-		if (FlxG.keys.justPressed.UP || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) 
+		if ((MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) && moveIt== false)
 		{
 			// A goofy format, because % doesn't work on negative numbers
 			_option = (_option + OPTIONS - 1) % OPTIONS; 
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
+			moveIt=true;
+		}
+		if ((MenuState.virtualPad.buttonUp.status == FlxButton.NORMAL)&& (MenuState.virtualPad.buttonDown.status == FlxButton.NORMAL)){
+        moveIt = false;
 		}
 		
-		if (FlxG.keys.justPressed.DOWN || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED)
+		if ((FlxG.keys.justPressed.DOWN || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED)&& moveIt== false)
 		{
 			_option = (_option + OPTIONS + 1) % OPTIONS;
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
+			moveIt=true;
 		}
 		
 		if (FlxG.keys.justPressed.RIGHT || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED)
