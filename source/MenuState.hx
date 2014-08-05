@@ -60,7 +60,7 @@ add(virtualPad);
 		add(_text1);
 		
 		// Base everything off of text1, so if we change color or size, only have to change one
-		_text2 = new FlxText( 80, FlxG.height / 2.5, 320, "Montezumasrevenge");
+		_text2 = new FlxText(FlxG.width - 200 , FlxG.height / 2.5, 320, "Montezumasrevenge");
 		_text2.moves = true;
 		_text2.size = _text1.size;
 		_text2.color = _text1.color;
@@ -103,7 +103,7 @@ add(virtualPad);
 			_text1.velocity.x = 0;
 		}
 		
-		if (_text2.x < FlxG.width / 0.5) 
+		if (_text2.x < FlxG.width / 5) 
 		{
 			_text2.velocity.x = 0;
 		}

@@ -17,7 +17,7 @@ class Player extends FlxSprite
 {
 	public static inline var RUN_SPEED:Int = 90;
 	public static inline var GRAVITY:Int = 620;
-	public static inline var JUMP_SPEED:Int = 250;
+	public static inline var JUMP_SPEED:Int = 100;
 	public static inline var JUMPS_ALLOWED:Int = 2;
 	public static inline var BULLET_SPEED:Int = 200;
 	public static inline var GUN_DELAY:Float = 0.4;
@@ -38,6 +38,8 @@ class Player extends FlxSprite
 	
 	public var climbing:Bool = false;
 	private var _onLadder:Bool = false;
+	private var jumped:Bool = false;
+	
 	
 	public function new(X:Int, Y:Int, Parent:PlayState, Gibs:FlxEmitter, Bullets:FlxGroup) 
 	{
@@ -167,7 +169,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 			climbing = false;
 		}
 		
-		if (isTouching(FlxObject.FLOOR) && !FlxG.keys.anyPressed(_jumpKeys))
+		if (isTouching(FlxObject.FLOOR) && PlayState.virtualPad2.buttonA.status == FlxButton.NORMAL)
 		{
 			_jumpTime = -1;
 			// Reset the double jump flag
@@ -211,7 +213,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 	{
 		if (FlxG.keys.anyJustPressed(_jumpKeys) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED)
 		{
-			if ((velocity.y == 0) || (_timesJumped < 1)) // Only allow two jumps
+			if ((velocity.y == 0) && (_timesJumped < 2)) // Only allow two jumps
 			{
 				FlxG.sound.play("assets/sounds/jump" + Reg.SoundExtension, 1, false);
 				_timesJumped++;
@@ -221,7 +223,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 		}
 		
 		// You can also use space or any other key you want
-		if (((FlxG.keys.anyPressed(_jumpKeys)) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) && (_jumpTime >= 0)) 
+		if (((FlxG.keys.anyPressed(_jumpKeys)) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) && _jumpTime >= 0) 
 		{
 			climbing = false;
 			_jumpTime += FlxG.elapsed;
@@ -230,6 +232,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 			if (_jumpTime > 0.25)
 			{
 				_jumpTime = -1;
+				jumped=true;
 			}
 			else if (_jumpTime > 0)
 			{
