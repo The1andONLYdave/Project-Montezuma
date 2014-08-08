@@ -191,7 +191,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
 				adView = new AdView(activity);
 				adView.setAdUnitId(adID);
-				adView.setAdSize(AdSize.SMART_BANNER);
+				adView.setAdSize(AdSize.BANNER);//SMART_BANNER);
 
 				loadAd();
 				adMobLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT); 
@@ -203,7 +203,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 					adMobLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 }
 				else if(x == 2) {
-					adMobLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+					adMobLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
                 }
 				
 				if(y == 0) {

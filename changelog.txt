@@ -1,0 +1,17 @@
+changelog
+v0.0.2(<-0.0.1)
+changed to diplay other enemy type, we don't have them atm.
+size of admob banner fixed (in gameactivity.java)
+bigger level
+---make keys collectable
+louder backgroundmusic (1 instead of 0.5, that sfx dont get that much louder than bg)
+
+planned 0.0.3
+---show collected keys with color
+---make doors unlockable(and use the key), maybe a keyarray[0]=1 mean 1 red key, [2]=3 mean 3 green and so on. unlocked_doors[0]=1 mean door 1(array+1) is unlock.
+---place some doors for players, better then walls we just lay some keys down in update and the level expands in point of player, can also start balancing levels.
+---damage if player fall more thean 2-3 square down
+---move the 2coloured platform
+---animate fire, water, green
+
+

@@ -86,7 +86,7 @@ add(virtualPad);
 		_option = 0;
 
 		super.create();
-		FlxG.sound.playMusic("assets/music/Menubackground.ogg", 0.5);
+		FlxG.sound.playMusic("assets/music/Menubackground.ogg");
 	}
 	
 	override public function update():Void 

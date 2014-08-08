@@ -17,7 +17,7 @@ class Player extends FlxSprite
 {
 	public static inline var RUN_SPEED:Int = 90;
 	public static inline var GRAVITY:Int = 620;
-	public static inline var JUMP_SPEED:Int = 100;
+	public static inline var JUMP_SPEED:Int = 120;
 	public static inline var JUMPS_ALLOWED:Int = 2;
 	public static inline var BULLET_SPEED:Int = 200;
 	public static inline var GUN_DELAY:Float = 0.4;

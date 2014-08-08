@@ -37,7 +37,7 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
-		AD.init("ca-app-pub-8761501900041217/8764631680", AD.LEFT, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
+		AD.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
 		AD.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
@@ -59,25 +59,26 @@ class PlayState extends FlxState
 		FlxG.camera.setBounds(0, 0, map.width, map.height);
 		FlxG.worldBounds.set(0, 0, map.width, map.height);
 		
-		// Set up the gibs
+		// Set up the gibs player
 		_gibs = new FlxEmitter();
 		_gibs.setXSpeed( -150, 150);
 		_gibs.setYSpeed( -200, 0);
 		_gibs.setRotation( -720, 720);
 		_gibs.makeParticles("assets/art/lizgibs.png", 25, 16, true, .5);
 		
-		_mongibs = new FlxEmitter();
-		_mongibs.setXSpeed( -150, 150);
-		_mongibs.setYSpeed( -200, 0);
-		_mongibs.setRotation( -720, 720);
-		_mongibs.makeParticles("assets/art/spikegibs.png", 25, 16, true, .5);
+		//spike gegner
+		//_mongibs = new FlxEmitter();
+		//_mongibs.setXSpeed( -150, 150);
+		//_mongibs.setYSpeed( -200, 0);
+		//_mongibs.setRotation( -720, 720);
+		//_mongibs.makeParticles("assets/art/spikegibs.png", 25, 16, true, .5);
 		
 		// Create the actual group of bullets here
 		_bullets = new FlxGroup();
 		_bullets.maxSize = 4;
 		_badbullets = new FlxGroup();
 		
-		add(player = new Player(112, 92, this, _gibs, _bullets));
+		add(player = new Player(480, 20, this, _gibs, _bullets));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -85,7 +86,7 @@ class PlayState extends FlxState
 		
 		// Set up the enemies here
 		_enemies = new FlxGroup();
-		placeMonsters(Assets.getText("assets/data/monstacoords.csv"), Enemy);
+		//placeMonsters(Assets.getText("assets/data/monstacoords.csv"), Enemy);
 		placeMonsters(Assets.getText("assets/data/lurkcoords.csv"), Lurker);
 		
 		_coins = new FlxGroup();
@@ -108,7 +109,7 @@ class PlayState extends FlxState
 		add(_badbullets);
 		add(_bullets); 
 		add(_gibs);
-		add(_mongibs);
+		//add(_mongibs);
 		
 		// HUD - score
 		_score = new FlxText(0, 0, FlxG.width);
@@ -129,7 +130,7 @@ class PlayState extends FlxState
 		#if flash
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.mp3", 0.5);
 		#else
-		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg", 0.5);
+		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
 		#end
 	}
 	
