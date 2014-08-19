@@ -17,8 +17,8 @@ class Lurker extends EnemyTemplate
 	public static inline var SPAWNTIME:Float = 45;
 	public static inline var JUMP_SPEED:Int = 60;
 	public static inline var BURNTIME:Int = 5;
-	public static inline var GUN_DELAY:Int = 1;
-	public static inline var BULLET_SPEED:Int =100;
+	public static inline var GUN_DELAY:Int = 2;
+	public static inline var BULLET_SPEED:Int =50;
 	
 	private var _spawntimer:Float;
 	private var _burntimer:Float;
@@ -68,17 +68,6 @@ class Lurker extends EnemyTemplate
 		{ 
 			animation.play("idle"); 
 		}
-		else if (health < HEALTH) 
-		{ 
-			if (velocity.y == 0) 
-			{ 
-				animation.play("wrecked");
-			}
-			else 
-			{
-				animation.play("burning");
-			} 
-		}
 		else 
 		{ 
 			animation.play("walking"); 
@@ -99,33 +88,9 @@ class Lurker extends EnemyTemplate
 			var ydistance:Float = _player.y - y;
 			var distancesquared:Float = xdistance * xdistance + ydistance * ydistance;
 			
-			if (distancesquared < 45000)
+			if (distancesquared < 4500)
 			{
 				shoot(_player);
-			}
-		}
-		
-		if (health <= 0)
-		{
-			maxVelocity.y = JUMP_SPEED * 4;
-			acceleration.y = GRAVITY * 3;
-			velocity.x = 0;
-			_burntimer += FlxG.elapsed;
-			
-			if (_burntimer >= BURNTIME)
-			{
-				super.kill();
-				x = -10;
-				y = -10;
-				visible = false;
-				acceleration.y = 0;
-			}
-			
-			_spawntimer += FlxG.elapsed;
-			
-			if (_spawntimer >= SPAWNTIME)
-			{
-				reset(_startx,_starty);
 			}
 		}
 		
@@ -194,17 +159,4 @@ class Lurker extends EnemyTemplate
 		}
 	}
 	
-	override public function kill():Void 
-	{
-		if (!alive) 
-		{ 
-			return; 
-		}
-		
-		exists = true;
-		solid = true;
-		visible = true;
-		acceleration.y = GRAVITY;
-		velocity.x = 0;
-	}
 }

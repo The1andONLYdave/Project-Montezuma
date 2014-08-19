@@ -88,8 +88,8 @@ class PlayState extends FlxState
 		add(_enemies);
 		
 		Reg.score = 0;
-		Reg.silverKeys = 0;
-		Reg.goldKeys = 0;
+		Reg.silverKeys =9;
+		Reg.goldKeys = 9;
 		
 		super.create();
 		
@@ -202,13 +202,9 @@ class PlayState extends FlxState
 			// Split each line into two coordinates
 			coords = entities[j].split(","); 
 			
-			if (Monster == Enemy)
-			{
-				_enemies.add(new Enemy(Std.parseInt(coords[0]), Std.parseInt(coords[1]), player, _mongibs)); 
-			}
-			else if (Monster == Lurker)
+			if (Monster == Lurker)
 			{ 
-				_enemies.add(new Lurker(Std.parseInt(coords[0]), Std.parseInt(coords[1]), player, _badbullets));
+				_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player, _badbullets));
 			}
 		}
 	}
