@@ -36,7 +36,8 @@ class Lurker extends EnemyTemplate
 		drag.x = RUN_SPEED * 9;
 		drag.y = JUMP_SPEED * 7;
 		acceleration.y = GRAVITY;
-		maxVelocity.x = RUN_SPEED;
+		acceleration.x = RUN_SPEED;
+		maxVelocity.x = 300;
 		maxVelocity.y = JUMP_SPEED;
 		health = HEALTH;
 		offset.x = 3;
@@ -64,18 +65,21 @@ class Lurker extends EnemyTemplate
 			animation.play("walking"); 
 		}
 		
-		if (health > 0)
+
+		if (velocity.x < 30) 
 		{
-			if (velocity.y == 0) 
-			{
-				acceleration.y = -acceleration.y;
-			}
-			if (x != _startx)
-			{
-				acceleration.x = (_startx - x);
-			}
-			
+			velocity.x = 30;
 		}
+		else 
+		{
+			velocity.x = -30;
+		}
+		if (x != _startx)
+		{
+			velocity.x = -30;
+			drag.x;
+		}
+			
 		
 		_cooldown += FlxG.elapsed;
 		super.update();
