@@ -119,14 +119,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 		{
 			climb();
 		}
-		
-		// Shooting
-		if (FlxG.keys.anyPressed(["X", "J"]))
-		{
-			//Let's put the shooting code in its own function to keep things organized
-			shoot();  
-		}
-		
+				
 		// Animations
 		if (velocity.x > 0 || velocity.x < 0) 
 		{ 
@@ -237,40 +230,6 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 			else if (_jumpTime > 0)
 			{
 				velocity.y = - 0.6 * maxVelocity.y;
-			}
-		}
-	}
-	
-	private function shoot():Void 
-	{
-		// Prepare some variables to pass on to the bullet
-		var bulletX:Int = Math.floor(x);
-		var bulletY:Int = Math.floor(y + 4);
-		var bXVeloc:Int = 0;
-		var bYVeloc:Int = 0;
-		
-		if (_cooldown >= GUN_DELAY)
-		{
-			_blt = cast(_bullets.recycle(), Bullet);
-			
-			if (_blt != null)
-			{
-				if (flipX)
-				{
-					// nudge it a little to the side so it doesn't emerge from the middle of helmutguy
-					bulletX -= Math.floor(_blt.width - 8); 
-					bXVeloc = -BULLET_SPEED;
-				}
-				else
-				{
-					bulletX += Math.floor(width - 8);
-					bXVeloc = BULLET_SPEED;
-				}
-				
-				_blt.shoot(bulletX, bulletY, bXVeloc, bYVeloc);
-				FlxG.sound.play("assets/sounds/shoot2" + Reg.SoundExtension, 1, false);
-				// reset the shot clock
-				_cooldown = 0; 
 			}
 		}
 	}

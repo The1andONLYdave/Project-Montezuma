@@ -31,6 +31,8 @@ class PlayState extends FlxState
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
+	private var silverKeys:Int;
+	private var goldKeys:Int;
 	public static var virtualPad2:FlxVirtualPad;
 	
 	
@@ -65,14 +67,7 @@ class PlayState extends FlxState
 		_gibs.setYSpeed( -200, 0);
 		_gibs.setRotation( -720, 720);
 		_gibs.makeParticles("assets/art/lizgibs.png", 25, 16, true, .5);
-		
-		//spike gegner
-		//_mongibs = new FlxEmitter();
-		//_mongibs.setXSpeed( -150, 150);
-		//_mongibs.setYSpeed( -200, 0);
-		//_mongibs.setRotation( -720, 720);
-		//_mongibs.makeParticles("assets/art/spikegibs.png", 25, 16, true, .5);
-		
+			
 		// Create the actual group of bullets here
 		_bullets = new FlxGroup();
 		_bullets.maxSize = 4;
@@ -86,7 +81,6 @@ class PlayState extends FlxState
 		
 		// Set up the enemies here
 		_enemies = new FlxGroup();
-		//placeMonsters(Assets.getText("assets/data/monstacoords.csv"), Enemy);
 		placeMonsters(Assets.getText("assets/data/lurkcoords.csv"), Lurker);
 		
 		_coins = new FlxGroup();
@@ -96,6 +90,8 @@ class PlayState extends FlxState
 		add(_enemies);
 		
 		Reg.score = 0;
+		silverKeys = 0;
+		goldKeys = 0;
 		
 		super.create();
 		
@@ -109,7 +105,6 @@ class PlayState extends FlxState
 		add(_badbullets);
 		add(_bullets); 
 		add(_gibs);
-		//add(_mongibs);
 		
 		// HUD - score
 		_score = new FlxText(0, 0, FlxG.width);
@@ -126,12 +121,7 @@ class PlayState extends FlxState
 		// Add last so it goes on top, you know the drill.
 		add(_text1); 
 
-		
-		#if flash
-		FlxG.sound.playMusic("assets/music/ScrollingSpace.mp3", 0.5);
-		#else
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
-		#end
 	}
 	
 	override public function update():Void 
@@ -144,7 +134,7 @@ class PlayState extends FlxState
 		
 		super.update();
 		
-		_score.text = '$' + Std.string(Reg.score);
+		_score.text = '$' + Std.string(Reg.score) + " Silverkeys: " + Std.string(silverKeys) + " Goldkeys: " + Std.string(goldKeys);
 		
 		if (!player.alive)
 		{
@@ -242,4 +232,5 @@ class PlayState extends FlxState
 			}
 		}
 	}
+	
 }
