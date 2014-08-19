@@ -174,7 +174,8 @@ public class GameActivity extends Activity implements SensorEventListener {
 		//AdRequest adRequest = new AdRequest.Builder().build();
 		AdRequest adRequest = new AdRequest.Builder()
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)       // Emulator
-        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE")
+        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE") //nexus4
+		.addTestDevice("76B9806B21BD1DDC9CC18771CF7A2CC4") //huawei
         .build();
 		adView.loadAd(adRequest);
 	}
@@ -251,7 +252,8 @@ public class GameActivity extends Activity implements SensorEventListener {
 		//AdRequest adRequest = new AdRequest.Builder().build();
 		AdRequest adRequest = new AdRequest.Builder()
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)       // Emulator
-        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE")
+        .addTestDevice("89CADD0B4B609A30ABDCB7ED4E90A8DE") //nexus4
+		.addTestDevice("76B9806B21BD1DDC9CC18771CF7A2CC4") //huawei
         .build();
 		interstitial.loadAd(adRequest);
 	}

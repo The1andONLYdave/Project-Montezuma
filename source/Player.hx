@@ -16,16 +16,13 @@ import flixel.ui.FlxVirtualPad;
 class Player extends FlxSprite 
 {
 	public static inline var RUN_SPEED:Int = 90;
-	public static inline var GRAVITY:Int = 2620;
-	public static inline var JUMP_SPEED:Int = 420;
-	public static inline var JUMPS_ALLOWED:Int = 2;
-	public static inline var BULLET_SPEED:Int = 200;
-	public static inline var GUN_DELAY:Float = 0.4;
+	public static inline var GRAVITY:Int = 620;
+	public static inline var JUMP_SPEED:Int = 200;
+	public static inline var JUMPS_ALLOWED:Int = 1;
 	
 	private var _gibs:FlxEmitter;
 	private var _bullets:FlxGroup;
 	private var _blt:Bullet;
-	private var _cooldown:Float;
 	private var _parent:PlayState;
 	
 	private var _jumpTime:Float = -1;
@@ -61,13 +58,11 @@ class Player extends FlxSprite
 		setSize(12, 16);
 		offset.set(3, 4);
 		
-		// Initialize the cooldown so that helmutguy can shoot right away.
-		_cooldown = GUN_DELAY; 
 		_gibs = Gibs;
 		// This is so we can look at properties of the playstate's tilemaps
 		_parent = Parent;  
 		
-		_jumpKeys = ["C", "K", "SPACE"];
+		//_jumpKeys = ["C", "K", "SPACE"];
 	}
 	
 	public override function update():Void
@@ -75,19 +70,14 @@ class Player extends FlxSprite
 		// Reset to 0 when no button is pushed
 		acceleration.x = 0; 
 			var _up:Bool = false;
-var _down:Bool = false;
-var _left:Bool = false;
-var _right:Bool = false;
+			var _down:Bool = false;
+			var _left:Bool = false;
+			var _right:Bool = false;
 
-_up = FlxG.keys.anyPressed(["UP", "W"]);
-_down = FlxG.keys.anyPressed(["DOWN", "S"]);
-_left = FlxG.keys.anyPressed(["LEFT", "A"]);
-_right = FlxG.keys.anyPressed(["RIGHT", "D"]);
-
-_up = _up || PlayState.virtualPad2.buttonUp.status == FlxButton.PRESSED;
-_down = _down || PlayState.virtualPad2.buttonDown.status == FlxButton.PRESSED;
-_left  = _left || PlayState.virtualPad2.buttonLeft.status == FlxButton.PRESSED;
-_right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED;
+		_up = 		PlayState.virtualPad2.buttonUp.status == FlxButton.PRESSED;
+		_down = 	PlayState.virtualPad2.buttonDown.status == FlxButton.PRESSED;
+		_left  = 	PlayState.virtualPad2.buttonLeft.status == FlxButton.PRESSED;
+		_right = 	PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED;
 
 
 
@@ -101,12 +91,12 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 			acceleration.y = GRAVITY;
 		}
 		
-		if (FlxG.keys.anyPressed(["LEFT", "A"]) || PlayState.virtualPad2.buttonLeft.status == FlxButton.PRESSED)
+		if (PlayState.virtualPad2.buttonLeft.status == FlxButton.PRESSED)
 		{
 			flipX = true;
 			acceleration.x = -drag.x;
 		}
-		else if (FlxG.keys.anyPressed(["RIGHT", "D"]) || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED)
+		else if (PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED)
 		{
 			flipX = false;
 			acceleration.x = drag.x;				
@@ -134,7 +124,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 			animation.play("jump"); 
 		}
 		
-		_cooldown += FlxG.elapsed;
+		//_cooldown += FlxG.elapsed;
 		
 		// Don't let helmuguy walk off the edge of the map
 		if (x <= 0)
@@ -204,7 +194,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 	
 	private function jump():Void
 	{
-		if (FlxG.keys.anyJustPressed(_jumpKeys) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED)
+		if ( PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED)
 		{
 			if ((velocity.y == 0) && (_timesJumped < 1)) // Only allow two jumps
 			{
@@ -216,7 +206,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 		}
 		
 		// You can also use space or any other key you want
-		if (((FlxG.keys.anyPressed(_jumpKeys)) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) && _jumpTime >= 0) 
+		if ((PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) && _jumpTime >= 0) 
 		{
 			climbing = false;
 			_jumpTime += FlxG.elapsed;
