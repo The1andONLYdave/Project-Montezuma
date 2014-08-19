@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="ProjectMontezuma" file="ProjectJumper" main="Main" version="0.0.3" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
+	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.0.3" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
@@ -77,7 +77,7 @@
 	
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
-	<certificate path="MyReleaseKeyForAwesomeApp.keystore" alias="PickAnAliasName" password="786f8ef635yd1" if="android" ></certificate>
+<!--	<certificate path="MyReleaseKeyForAwesomeApp.keystore" alias="PickAnAliasName" password="786f8ef635yd1" if="android" ></certificate> -->
 	<!--------------------------------CUSTOM---------------------------------------->
 	
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->

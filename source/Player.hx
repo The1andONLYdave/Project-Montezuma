@@ -206,7 +206,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 	{
 		if (FlxG.keys.anyJustPressed(_jumpKeys) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED)
 		{
-			if ((velocity.y == 0) && (_timesJumped < 2)) // Only allow two jumps
+			if ((velocity.y == 0) && (_timesJumped < 1)) // Only allow two jumps
 			{
 				FlxG.sound.play("assets/sounds/jump" + Reg.SoundExtension, 1, false);
 				_timesJumped++;

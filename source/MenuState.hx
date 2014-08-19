@@ -50,7 +50,7 @@ add(virtualPad);
 		FlxG.state.bgColor = 0xFF101414;
 		
 		// Each word is its own object so we can position them independantly
-		_text1 = new FlxText( -220, FlxG.height / 4, 320, "Project");
+		_text1 = new FlxText( -220, FlxG.height / 4, 320, "Montezumas");
 		_text1.moves = true;
 		_text1.size = 20;
 		//rgb 0 162 232
@@ -60,7 +60,7 @@ add(virtualPad);
 		add(_text1);
 		
 		// Base everything off of text1, so if we change color or size, only have to change one
-		_text2 = new FlxText(FlxG.width - 200 , FlxG.height / 2.5, 320, "Montezumasrevenge");
+		_text2 = new FlxText(FlxG.width - 200 , FlxG.height / 2.5, 320, "Tower 8bit");
 		_text2.moves = true;
 		_text2.size = _text1.size;
 		_text2.color = _text1.color;
@@ -157,7 +157,7 @@ add(virtualPad);
 					//virtualPad = FlxDestroyUtil.destroy(virtualPad);	
 					//#end
 				case 1:
-					FlxG.openURL("http://the1andonlydave.github.com");
+					FlxG.openURL("http://kulsch-it.de");
 				case 2:
 					FlxG.openURL("http://flixel.org");
 			}

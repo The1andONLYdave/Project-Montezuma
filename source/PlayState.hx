@@ -31,8 +31,6 @@ class PlayState extends FlxState
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
-	private var silverKeys:Int;
-	private var goldKeys:Int;
 	public static var virtualPad2:FlxVirtualPad;
 	
 	
@@ -55,7 +53,7 @@ class PlayState extends FlxState
 		add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
 		
 		virtualPad2 = new FlxVirtualPad(FULL, A);
-		virtualPad2.setAll("alpha", 0.3);
+		virtualPad2.setAll("alpha", 0.5);
 		add(virtualPad2);	
 		
 		FlxG.camera.setBounds(0, 0, map.width, map.height);
@@ -90,8 +88,8 @@ class PlayState extends FlxState
 		add(_enemies);
 		
 		Reg.score = 0;
-		silverKeys = 0;
-		goldKeys = 0;
+		Reg.silverKeys = 0;
+		Reg.goldKeys = 0;
 		
 		super.create();
 		
@@ -113,7 +111,7 @@ class PlayState extends FlxState
 		add(_score);
 		
 		// Set up the game over text
-		_text1 = new FlxText(0, 30, FlxG.width, "Press R or Button to Restart.");
+		_text1 = new FlxText(0, 30, FlxG.width, "Press A - Button to Restart.");
 		_text1.setFormat(null, 40, FlxColor.RED, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text1.visible = false;
 		_text1.antialiasing = true;
@@ -134,7 +132,7 @@ class PlayState extends FlxState
 		
 		super.update();
 		
-		_score.text = '$' + Std.string(Reg.score) + " Silverkeys: " + Std.string(silverKeys) + " Goldkeys: " + Std.string(goldKeys);
+		_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		
 		if (!player.alive)
 		{
@@ -228,7 +226,7 @@ class PlayState extends FlxState
 			
 			if (Sparkle == Coin)
 			{
-				_coins.add(new Coin(Std.parseInt(coords[0]), Std.parseInt(coords[1]))); 
+				_coins.add(new Coin(16*(Std.parseInt(coords[0])), (16*Std.parseInt(coords[1])))); 
 			}
 		}
 	}

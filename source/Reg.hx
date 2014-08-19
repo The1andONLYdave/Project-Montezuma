@@ -31,6 +31,8 @@ class Reg
 	 * Example usage: Storing the current score.
 	 */
 	public static var score:Int = 0;
+	public static var silverKeys:Int = 0;
+	public static var goldKeys:Int = 0;
 	/**
 	 * Generic bucket for storing different <code>FlxSaves</code>.
 	 * Especially useful for setting up multiple save slots.

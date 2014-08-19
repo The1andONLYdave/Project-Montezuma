@@ -12,6 +12,8 @@ class Coin extends FlxSprite
 {
 	public function new(X:Float = 0, Y:Float = 0) 
 	{
+		x=x*16;
+		y=y*16;
 		super(X, Y);
 		
 		loadGraphic("assets/art/coinspin.png", true);
