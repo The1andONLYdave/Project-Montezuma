@@ -35,7 +35,7 @@ class Lurker extends EnemyTemplate
 		animation.add("idle", [0]);
 		drag.x = RUN_SPEED * 9;
 		drag.y = JUMP_SPEED * 7;
-		acceleration.y = GRAVITY;
+		//acceleration.y = GRAVITY;
 		acceleration.x = RUN_SPEED;
 		maxVelocity.x = 300;
 		maxVelocity.y = JUMP_SPEED;
@@ -66,22 +66,17 @@ class Lurker extends EnemyTemplate
 		}
 		
 
-		if (velocity.x < 30) 
-		{
-			velocity.x = 30;
-		}
-		else 
-		{
-			velocity.x = -30;
-		}
-		if (x != _startx)
-		{
-			velocity.x = -30;
-			drag.x;
-		}
-			
 		
-		_cooldown += FlxG.elapsed;
+		if (_cooldown <= 0)
+		{
+       
+            velocity.x = velocity.y = 0; }
+        else
+        {
+            velocity.x = velocity.x+30; 
+        }
+        _cooldown -= FlxG.elapsed;
+   
 		super.update();
 	}
 	
