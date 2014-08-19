@@ -84,7 +84,7 @@ _down = FlxG.keys.anyPressed(["DOWN", "S"]);
 _left = FlxG.keys.anyPressed(["LEFT", "A"]);
 _right = FlxG.keys.anyPressed(["RIGHT", "D"]);
 
-_up = _up || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED;
+_up = _up || PlayState.virtualPad2.buttonUp.status == FlxButton.PRESSED;
 _down = _down || PlayState.virtualPad2.buttonDown.status == FlxButton.PRESSED;
 _left  = _left || PlayState.virtualPad2.buttonLeft.status == FlxButton.PRESSED;
 _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED;
@@ -174,7 +174,7 @@ _right = _right || PlayState.virtualPad2.buttonRight.status == FlxButton.PRESSED
 	
 	private function climb():Void
 	{
-		if (FlxG.keys.anyPressed(["UP", "W"]) || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED)
+		if (FlxG.keys.anyPressed(["UP", "W"]) || PlayState.virtualPad2.buttonUp.status == FlxButton.PRESSED)
 		{
 			if (_onLadder) 
 			{
