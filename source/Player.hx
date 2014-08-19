@@ -21,8 +21,6 @@ class Player extends FlxSprite
 	public static inline var JUMPS_ALLOWED:Int = 1;
 	
 	private var _gibs:FlxEmitter;
-	private var _bullets:FlxGroup;
-	private var _blt:Bullet;
 	private var _parent:PlayState;
 	
 	private var _jumpTime:Float = -1;
@@ -38,12 +36,11 @@ class Player extends FlxSprite
 	private var jumped:Bool = false;
 	
 	
-	public function new(X:Int, Y:Int, Parent:PlayState, Gibs:FlxEmitter, Bullets:FlxGroup) 
+	public function new(X:Int, Y:Int, Parent:PlayState, Gibs:FlxEmitter) 
 	{
 		// X,Y: Starting coordinates
 		super(X, Y);
 		
-		_bullets = Bullets;
 		
 		//Set up the graphics
 		loadGraphic("assets/art/lizardhead3.png", true, 16, 20);
@@ -62,9 +59,7 @@ class Player extends FlxSprite
 		// This is so we can look at properties of the playstate's tilemaps
 		_parent = Parent;  
 		
-		//_jumpKeys = ["C", "K", "SPACE"];
 	}
-	
 	public override function update():Void
 	{
 		// Reset to 0 when no button is pushed

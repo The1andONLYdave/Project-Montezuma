@@ -66,12 +66,7 @@ class PlayState extends FlxState
 		_gibs.setRotation( -720, 720);
 		_gibs.makeParticles("assets/art/lizgibs.png", 25, 16, true, .5);
 			
-		// Create the actual group of bullets here
-		_bullets = new FlxGroup();
-		_bullets.maxSize = 4;
-		_badbullets = new FlxGroup();
-		
-		add(player = new Player(480, 20, this, _gibs, _bullets));
+		add(player = new Player(480, 20, this, _gibs));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -93,15 +88,6 @@ class PlayState extends FlxState
 		
 		super.create();
 		
-		// Set up the individual bullets
-		// Allow 4 bullets at a time
-		for (i in 0...4)    
-		{
-			_bullets.add(new Bullet());
-		}
-		
-		add(_badbullets);
-		add(_bullets); 
 		add(_gibs);
 		
 		// HUD - score
@@ -127,8 +113,6 @@ class PlayState extends FlxState
 		FlxG.collide(player, map);
 		FlxG.collide(_enemies, map);
 		FlxG.collide(_gibs, map);
-		FlxG.collide(_bullets, map);
-		FlxG.collide(_badbullets, map);
 		
 		super.update();
 		
@@ -147,9 +131,7 @@ class PlayState extends FlxState
 		}
 		
 		FlxG.overlap(player, _enemies, hitPlayer);
-		FlxG.overlap(_bullets, _enemies, hitmonster);
 		FlxG.overlap(player, _coins, collectCoin);
-		FlxG.overlap(player, _badbullets, hitPlayer);
 		
 		if (_restart) 
 		{
@@ -176,21 +158,6 @@ class PlayState extends FlxState
 		}
 	}
 	
-	private function hitmonster(Blt:FlxObject, Monster:FlxObject):Void 
-	{
-		if (!Monster.alive) 
-		{ 
-			// Just in case
-			return; 
-		}  
-		
-		if (Monster.health > 0) 
-		{
-			Blt.kill();
-			Monster.hurt(1);
-		}
-	}
-	
 	private function placeMonsters(MonsterData:String, Monster:Class<FlxObject>):Void
 	{
 		var coords:Array<String>;
@@ -204,7 +171,7 @@ class PlayState extends FlxState
 			
 			if (Monster == Lurker)
 			{ 
-				_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player, _badbullets));
+				_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player));
 			}
 		}
 	}
