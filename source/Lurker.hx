@@ -70,12 +70,14 @@ class Lurker extends EnemyTemplate
 		if (_cooldown <= 0)
 		{
        
-            velocity.x = velocity.y = 0; }
+            velocity.x = velocity.y = 0; 
+			_cooldown -= FlxG.elapsed;
+			drag.x;}
         else
         {
-            velocity.x = velocity.x+30; 
+            velocity.x = 30;			
         }
-        _cooldown -= FlxG.elapsed;
+        
    
 		super.update();
 	}
