@@ -29,7 +29,6 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" if="flash" exclude="*.ogg" />
 	<assets path="assets" unless="flash" />
 	
 	<!--------------------------------LIBRARIES------------------------------------->
