@@ -59,8 +59,8 @@ class PlayState extends FlxState
 //	_UINT_switchRed	=map.getTile(7, 5);
 //	_UINT_boxGreen	=map.getTile(11,8);
 //	_UINT_boxBlue	=map.getTile(8, 8);
-	_boxRed	=map.getTile(6, 8); //get red questionmarkbox
-	map.setTileProperties(_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
+//	_boxRed	=map.getTile(6, 8); //get red questionmarkbox
+//	map.setTileProperties(_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
 //	map.setTileProperties(_UINT_boxGreen, FlxObject.ANY); //make all of them collision-on
 //	map.setTileProperties(_UINT_boxBlue, FlxObject.ANY); //make all of them collision-on
 	
