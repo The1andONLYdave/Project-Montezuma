@@ -137,7 +137,7 @@ class Player extends FlxSprite
 			animation.play("jump"); 
 		}
 		
-		//_cooldown += FlxG.elapsed;
+		_cooldown += FlxG.elapsed;
 		
 		// Don't let helmuguy walk off the edge of the map
 		if (x <= 0)
