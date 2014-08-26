@@ -33,12 +33,12 @@ class PlayState extends FlxState
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
-	public var _UINT_switchGreen:Int = 0;
-	public var _UINT_switchBlue:Int = 0;
-	public var _UINT_switchRed:Int = 0;
-	public var _UINT_boxGreen:Int = 0;
-	public var _UINT_boxBlue:Int = 0;
-	public var _UINT_boxRed:Int = 0;
+	//private var _UINT_switchGreen:Uint;
+	//private var _UINT_switchBlue:Uint;
+	//private var _UINT_switchRed:Uint;
+	//private var _UINT_boxGreen:Uint;
+	//private var _UINT_boxBlue:Uint;
+	public var _boxRed:UInt;
 	
 	override public function create():Void
 	{
@@ -54,15 +54,15 @@ class PlayState extends FlxState
 	
 	
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
-	_UINT_switchGreen=map.getTile(9, 5);
-	_UINT_switchBlue=map.getTile(8, 5);
-	_UINT_switchRed	=map.getTile(7, 5);
-	_UINT_boxGreen	=map.getTile(11,8);
-	_UINT_boxBlue	=map.getTile(8, 8);
-	_UINT_boxRed	=map.getTile(6, 8); //get red questionmarkbox
-	map.setTileProperties(_UINT_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
-	map.setTileProperties(_UINT_boxGreen, FlxObject.ANY); //make all of them collision-on
-	map.setTileProperties(_UINT_boxBlue, FlxObject.ANY); //make all of them collision-on
+//	_UINT_switchGreen=map.getTile(9, 5);
+//	_UINT_switchBlue=map.getTile(8, 5);
+//	_UINT_switchRed	=map.getTile(7, 5);
+//	_UINT_boxGreen	=map.getTile(11,8);
+//	_UINT_boxBlue	=map.getTile(8, 8);
+	_boxRed	=map.getTile(6, 8); //get red questionmarkbox
+	map.setTileProperties(_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
+//	map.setTileProperties(_UINT_boxGreen, FlxObject.ANY); //make all of them collision-on
+//	map.setTileProperties(_UINT_boxBlue, FlxObject.ANY); //make all of them collision-on
 	
 	
 	
@@ -191,7 +191,7 @@ class PlayState extends FlxState
 	{
 		C.kill();
 		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
-		if(Reg.score == 90)
+		if(Reg.score > 89)
 		{
 			//disable ADs maybe they hide the last 10 coin else
 			GAnalytics.trackEvent("level1", "action", "Collected 90 coin", 1);
@@ -201,6 +201,7 @@ class PlayState extends FlxState
 		{
 			GAnalytics.trackEvent("level1", "action", "Collected 100 coin", 1);
 			FlxG.switchState(new WinningState());
+			AD.hide();
 		}
 		
 		
