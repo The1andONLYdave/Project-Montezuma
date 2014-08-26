@@ -19,9 +19,15 @@ class Player extends FlxSprite
 	public static inline var GRAVITY:Int = 620;
 	public static inline var JUMP_SPEED:Int = 200;
 	public static inline var JUMPS_ALLOWED:Int = 1;
+	public static inline var BULLET_SPEED:Int = 200;
+	public static inline var GUN_DELAY:Float = 0.4;
+	
 	
 	private var _gibs:FlxEmitter;
 	private var _parent:PlayState;
+	private var _bullets:FlxGroup;
+	private var _blt:Bullet;
+	private var _cooldown:Float;
 	
 	private var _jumpTime:Float = -1;
 	private var _timesJumped:Int = 0;
@@ -36,11 +42,12 @@ class Player extends FlxSprite
 	private var jumped:Bool = false;
 	
 	
-	public function new(X:Int, Y:Int, Parent:PlayState, Gibs:FlxEmitter) 
+	public function new(X:Int, Y:Int, Parent:PlayState, Gibs:FlxEmitter, Bullets:FlxGroup) 
 	{
 		// X,Y: Starting coordinates
 		super(X, Y);
 		
+		_bullets = Bullets;
 		
 		//Set up the graphics
 		loadGraphic("assets/art/lizardhead3.png", true, 16, 20);
@@ -55,6 +62,9 @@ class Player extends FlxSprite
 		setSize(12, 16);
 		offset.set(3, 4);
 		
+		
+		// Initialize the cooldown so that helmutguy can shoot right away.
+		_cooldown = GUN_DELAY; 
 		_gibs = Gibs;
 		// This is so we can look at properties of the playstate's tilemaps
 		_parent = Parent;  
@@ -105,6 +115,14 @@ class Player extends FlxSprite
 			climb();
 		//}
 				
+		// Shooting
+		if (PlayState.virtualPad2.buttonB.status == FlxButton.PRESSED)
+		{
+			//Let's put the shooting code in its own function to keep things organized
+			shoot();  
+		}
+		
+		
 		// Animations
 		if (velocity.x > 0 || velocity.x < 0) 
 		{ 
@@ -141,6 +159,11 @@ class Player extends FlxSprite
 		{
 			_onLadder = true;
 			climbing=true; //start climbing when walking on a ladder
+			
+			//we can jumping up a ladder probably
+			_jumpTime = -1;
+			_timesJumped = 0;
+			
 		}
 		else 
 		{
@@ -216,6 +239,40 @@ class Player extends FlxSprite
 			else if (_jumpTime > 0)
 			{
 				velocity.y = - 0.6 * maxVelocity.y;
+			}
+		}
+	}
+	
+	private function shoot():Void 
+	{
+		// Prepare some variables to pass on to the bullet
+		var bulletX:Int = Math.floor(x);
+		var bulletY:Int = Math.floor(y + 4);
+		var bXVeloc:Int = 0;
+		var bYVeloc:Int = 0;
+		
+		if (_cooldown >= GUN_DELAY)
+		{
+			_blt = cast(_bullets.recycle(), Bullet);
+			
+			if (_blt != null)
+			{
+				if (flipX)
+				{
+					// nudge it a little to the side so it doesn't emerge from the middle of helmutguy
+					bulletX -= Math.floor(_blt.width - 8); 
+					bXVeloc = -BULLET_SPEED;
+				}
+				else
+				{
+					bulletX += Math.floor(width - 8);
+					bXVeloc = BULLET_SPEED;
+				}
+				
+				_blt.shoot(bulletX, bulletY, bXVeloc, bYVeloc);
+				FlxG.sound.play("assets/sounds/shoot2" + Reg.SoundExtension, 1, false);
+				// reset the shot clock
+				_cooldown = 0; 
 			}
 		}
 	}

@@ -75,9 +75,9 @@ class PlayState extends FlxState
 		_bullets = new FlxGroup();
 		_bullets.maxSize = 4;
 		_badbullets = new FlxGroup();
-		
-		// _bullets
-		add(player = new Player(480, 20, this, _gibs));
+		 
+		//
+		add(player = new Player(480, 20, this, _gibs, _bullets));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -146,7 +146,7 @@ class PlayState extends FlxState
 		{
 			_text1.visible = true;
 			AD.hide();
-			GAnalytics.trackEvent("level1", "action", "player destroyed", 1);
+			//GAnalytics.trackEvent("level1", "action", "player destroyed", 1);
 		
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
