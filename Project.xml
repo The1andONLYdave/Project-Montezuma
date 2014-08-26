@@ -44,6 +44,7 @@
 	<!--In case you want to use nape with flixel-->
 	<!--haxelib name="nape" /-->
 	<haxelib name="admob" />
+	<haxelib name="ganalytics" />
 	
 	<!--------------------------------HAXEDEFINES----------------------------------->
 	

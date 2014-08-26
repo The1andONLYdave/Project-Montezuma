@@ -14,6 +14,7 @@ import openfl.Assets;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 import admob.AD;
+import GAnalytics;
 
 class PlayState extends FlxState
 {
@@ -38,6 +39,9 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		AD.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
+		GAnalytics.startSession( "UA-47310419-7" );
+		GAnalytics.trackScreen( "90363841" );
+		GAnalytics.trackEvent("level1", "action", "starting", 1);
 		AD.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
@@ -122,10 +126,13 @@ class PlayState extends FlxState
 		{
 			_text1.visible = true;
 			AD.hide();
+			GAnalytics.trackEvent("level1", "action", "player destroyed", 1);
+		
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
 				AD.show();
+				GAnalytics.trackEvent("level1", "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}
 		}
@@ -142,17 +149,21 @@ class PlayState extends FlxState
 	private function collectCoin(P:FlxObject, C:FlxObject):Void 
 	{
 		C.kill();
+		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
+		
 	}
 	
 	private function hitPlayer(P:FlxObject, Monster:FlxObject):Void 
 	{
 		if (Std.is(Monster, Bullet))
 		{
+			GAnalytics.trackEvent("level1", "action", "Monster hitPlayer", 1);
 			Monster.kill();
 		}
 		
 		if (Monster.health > 0)
 		{
+			GAnalytics.trackEvent("level1", "action", "Monster hurtingPlayer", 1);
 			// This should still be more interesting
 			P.hurt(1); 
 		}
