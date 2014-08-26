@@ -56,7 +56,7 @@ class PlayState extends FlxState
 		add(map.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1.csv"), "assets/art/simples_pimples.png", 16, 16));
 		add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
 		
-		virtualPad2 = new FlxVirtualPad(FULL, A);
+		virtualPad2 = new FlxVirtualPad(FULL, A_B);
 		virtualPad2.setAll("alpha", 0.5);
 		add(virtualPad2);	
 		
