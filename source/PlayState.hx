@@ -33,9 +33,12 @@ class PlayState extends FlxState
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
-	
-	
-	
+	public var _UINT_switchGreen:Int = 0;
+	public var _UINT_switchBlue:Int = 0;
+	public var _UINT_switchRed:Int = 0;
+	public var _UINT_boxGreen:Int = 0;
+	public var _UINT_boxBlue:Int = 0;
+	public var _UINT_boxRed:Int = 0;
 	
 	override public function create():Void
 	{
@@ -49,6 +52,22 @@ class PlayState extends FlxState
 		background = new FlxTilemap();
 		ladders = new FlxTilemap();
 	
+	
+	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
+	_UINT_switchGreen=map.getTile(9, 5);
+	_UINT_switchBlue=map.getTile(8, 5);
+	_UINT_switchRed	=map.getTile(7, 5);
+	_UINT_boxGreen	=map.getTile(11,8);
+	_UINT_boxBlue	=map.getTile(8, 8);
+	_UINT_boxRed	=map.getTile(6, 8); //get red questionmarkbox
+	map.setTileProperties(_UINT_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
+	map.setTileProperties(_UINT_boxGreen, FlxObject.ANY); //make all of them collision-on
+	map.setTileProperties(_UINT_boxBlue, FlxObject.ANY); //make all of them collision-on
+	
+	
+	
+
+
 		_restart = false;
 		
 		add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
@@ -140,7 +159,7 @@ class PlayState extends FlxState
 		super.update();
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
-		_score.text = '$' + Std.string(Reg.score);
+		_score.text = '$' + Std.string(Reg.score) + '/100';
 		
 		if (!player.alive)
 		{
@@ -172,6 +191,19 @@ class PlayState extends FlxState
 	{
 		C.kill();
 		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
+		if(Reg.score == 90)
+		{
+			//disable ADs maybe they hide the last 10 coin else
+			GAnalytics.trackEvent("level1", "action", "Collected 90 coin", 1);
+			AD.hide();
+		}
+		if(Reg.score > 99)
+		{
+			GAnalytics.trackEvent("level1", "action", "Collected 100 coin", 1);
+			FlxG.switchState(new WinningState());
+		}
+		
+		
 		
 	}
 	
