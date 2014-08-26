@@ -120,7 +120,8 @@ class PlayState extends FlxState
 		
 		super.update();
 		
-		_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
+		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
+		_score.text = '$' + Std.string(Reg.score);
 		
 		if (!player.alive)
 		{

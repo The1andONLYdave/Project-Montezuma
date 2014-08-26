@@ -100,10 +100,10 @@ class Player extends FlxSprite
 		jump();
 		
 		// Can only climb when not jumping
-		if (_jumpTime < 0)
-		{
+		//if (_jumpTime < 0)
+		//{
 			climb();
-		}
+		//}
 				
 		// Animations
 		if (velocity.x > 0 || velocity.x < 0) 
@@ -140,6 +140,7 @@ class Player extends FlxSprite
 		if (_parent.ladders.getTile(_xgridleft, _ygrid) > 0 && _parent.ladders.getTile(_xgridright, _ygrid) > 0) 
 		{
 			_onLadder = true;
+			climbing=true; //start climbing when walking on a ladder
 		}
 		else 
 		{
@@ -167,7 +168,7 @@ class Player extends FlxSprite
 				_timesJumped = 0;
 			}
 			
-			if (climbing && (_parent.ladders.getTile(_xgridleft, _ygrid - 1)) > 0) 
+			if (climbing && ((_parent.ladders.getTile(_xgridleft, _ygrid - 1)) > 0 || (_parent.ladders.getTile(_xgridleft, _ygrid )) > 0)) 
 			{
 				velocity.y = - RUN_SPEED;
 			}
