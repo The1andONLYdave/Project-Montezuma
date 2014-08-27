@@ -52,7 +52,7 @@ add(virtualPad);
 		// Each word is its own object so we can position them independantly
 		_text1 = new FlxText( -220, FlxG.height / 4, 320, "Montezumas");
 		_text1.moves = true;
-		_text1.size = 20;
+		_text1.size = 12;
 		//rgb 0 162 232
 		_text1.color = 0x00A2E8;
 		_text1.antialiasing = true;
@@ -69,9 +69,9 @@ add(virtualPad);
 		add(_text2);
 		
 		// Set up the menu options
-		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play");
-		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 10, 150, "Visit our Webpage");
-		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Visit flixel.org");
+		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play (click A for select/jump, B for shooting)");
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Give us Feedback");
+		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
 		_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
 		_text3.size = _text4.size = _text5.size = 8;
 		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
@@ -157,7 +157,7 @@ add(virtualPad);
 					//virtualPad = FlxDestroyUtil.destroy(virtualPad);	
 					//#end
 				case 1:
-					FlxG.openURL("http://kulsch-it.de");
+					FlxG.openURL("http://kulsch-it.de/#contact");
 				case 2:
 					FlxG.openURL("http://flixel.org");
 			}
