@@ -209,15 +209,17 @@ class PlayState extends FlxState
 	{
 		C.kill();
 		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
-		if(Reg.score > 89)
+		//if(Reg.score > 89)
+		if(Reg.score > 19)
+		
 		{
 			//disable ADs maybe they hide the last 10 coin else
-			GAnalytics.trackEvent("level1", "action", "Collected 90 coin", 1);
+			GAnalytics.trackEvent("level1", "action", "Collected 20 coin", 1);
 			AD.hide();
 		}
-		if(Reg.score > 99)
+		if(Reg.score > 24)
 		{
-			GAnalytics.trackEvent("level1", "action", "Collected 100 coin", 1);
+			GAnalytics.trackEvent("level1", "action", "Collected 25 coin", 1);
 			FlxG.switchState(new WinningState());
 			AD.hide();
 		}
