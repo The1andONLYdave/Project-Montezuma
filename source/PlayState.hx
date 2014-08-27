@@ -154,14 +154,6 @@ class PlayState extends FlxState
 
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
 		
-	//	var stageWidth:Int = Lib.current.stage.stageWidth;
-		//var stageHeight:Int = Lib.current.stage.stageHeight;
-		
-		//if(stageWidth/stageHeight>1.666666667){
-		//var tempconversion:Float=stageHeight*1.666666667;
-		//stageWidth=Std.int(tempconversion);
-		//}
-
 		}
 	
 	override public function update():Void 
