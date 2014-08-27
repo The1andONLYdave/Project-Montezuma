@@ -32,6 +32,7 @@ class PlayState extends FlxState
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _score:FlxText;
+	private var _debug:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
 	//private var _UINT_switchGreen:Uint;
 	//private var _UINT_switchBlue:Uint;
@@ -135,6 +136,12 @@ class PlayState extends FlxState
 		_score.setFormat(null, 16, FlxColor.YELLOW, "center", FlxText.BORDER_OUTLINE, 0x131c1b);
 		_score.scrollFactor.set(0, 0);
 		add(_score);
+
+		_debug = new FlxText(0, 0, FlxG.width);
+		_debug.setFormat(null, 10, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
+		_debug.scrollFactor.set(0, 0);
+		add(_debug);
+
 		
 		// Set up the game over text
 		_text1 = new FlxText(0, 30, FlxG.width, "Press A - Button to Restart.");
@@ -146,7 +153,16 @@ class PlayState extends FlxState
 		add(_text1); 
 
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
-	}
+		
+	//	var stageWidth:Int = Lib.current.stage.stageWidth;
+		//var stageHeight:Int = Lib.current.stage.stageHeight;
+		
+		//if(stageWidth/stageHeight>1.666666667){
+		//var tempconversion:Float=stageHeight*1.666666667;
+		//stageWidth=Std.int(tempconversion);
+		//}
+
+		}
 	
 	override public function update():Void 
 	{
@@ -160,12 +176,14 @@ class PlayState extends FlxState
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		_score.text = '$' + Std.string(Reg.score) + '/100';
+		//_debug.text='width '+stageWidth +' height '+stageHeight+' tempconv '+tempconversion;
+		
 		
 		if (!player.alive)
 		{
 			_text1.visible = true;
 			AD.hide();
-			FlxG.vibrate(1000);
+			//FlxG.vibrate(1000);
 
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 

@@ -7,6 +7,7 @@ import flash.events.Event;
 import flash.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.FlxG;
 
 class Main extends Sprite 
 { //20x12 tiles = 320x192 pixel
@@ -52,19 +53,26 @@ class Main extends Sprite
 	
 	private function setupGame():Void
 	{
+			//FlxG.log.add("testlog");
+
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
+		
+		//if((stageWidth/stageHeight)>1.666666667){
+		//var tempconversion:Float=stageHeight*1.666666667;
+		//stageWidth=Std.int(tempconversion);
+		//}
 
 		if (zoom == -1) //TODO 27.8.14: add something like if ratio is not 1,667 make black borders around to archive this ratio, else we have devices with softwarekeys(onscreen), and due to scaling the game smaller (x-axis) we have something like 1 tilerow to much on y-axis.
 		
 		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
-			zoom = Math.min(ratioX, ratioY);
-			gameWidth = Math.ceil(stageWidth / zoom);
-			gameHeight = Math.ceil(stageHeight / zoom);
+			var ratioX:Float = stageWidth / gameWidth;//4 or 2,5
+			var ratioY:Float = stageHeight / gameHeight;//3,75 or 2,5
+			zoom = Math.min(ratioX, ratioY);//3,75 or 2,5 
+			gameWidth = Math.ceil(stageWidth / zoom);//342 or 320
+			gameHeight = Math.ceil(stageHeight / zoom);//192 or 192
 		}
 
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, 192, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 	}
 }
