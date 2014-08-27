@@ -15,7 +15,7 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 import admob.AD;
 import GAnalytics;
-
+  @:allow(Player.update)
 class PlayState extends FlxState
 {
 	public var map:FlxTilemap;
@@ -31,6 +31,9 @@ class PlayState extends FlxState
 	private var _text1:FlxText;
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
+	private var _coinsRed:FlxGroup;
+	private var _coinsGreen:FlxGroup;
+	private var _coinsBlue:FlxGroup;
 	private var _score:FlxText;
 	private var _debug:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
@@ -110,6 +113,19 @@ class PlayState extends FlxState
 		_coins = new FlxGroup();
 		placeCoins(Assets.getText("assets/data/coins.csv"), Coin);
 		
+		_coinsRed = new FlxGroup();
+		//placeCoinsRed(Assets.getText("assets/data/coinsred.csv"), CoinRed);
+		_coinsBlue = new FlxGroup();
+		placeCoinsRed(Assets.getText("assets/data/coinsblue.csv"), CoinBlue);
+		_coinsGreen = new FlxGroup();
+		placeCoinsRed(Assets.getText("assets/data/coinsgreen.csv"), CoinGreen);
+	
+		_coinsRed.add(new CoinRed((16*25), (16*8))); 
+			
+		add(_coinsGreen);
+		add(_coinsBlue);
+		add(_coinsRed);
+		
 		add(_coins);
 		add(_enemies);
 		
@@ -153,7 +169,9 @@ class PlayState extends FlxState
 		add(_text1); 
 
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
+_debug.text='dbg: '+map.getTile(6, 8);
 		
+			
 		}
 	
 	override public function update():Void 
@@ -163,12 +181,12 @@ class PlayState extends FlxState
 		FlxG.collide(_gibs, map);
 		FlxG.collide(_bullets, map);
 		FlxG.collide(_badbullets, map);
+		//FlxG.collide(player, 852, collectCoinRed);
 		
 		super.update();
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		_score.text = '$' + Std.string(Reg.score) + '/100';
-		//_debug.text='width '+stageWidth +' height '+stageHeight+' tempconv '+tempconversion;
 		
 		
 		if (!player.alive)
@@ -190,6 +208,10 @@ class PlayState extends FlxState
 		FlxG.overlap(player, _coins, collectCoin);
 		FlxG.overlap(_bullets, _enemies, hitmonster);
 		FlxG.overlap(player, _badbullets, hitPlayer);
+		FlxG.overlap(player, _coinsRed, collectCoinRed);
+		FlxG.overlap(player, _coinsBlue, collectCoinBlue);
+		FlxG.overlap(player, _coinsGreen, collectCoinGreen);
+		
 		
 		if (_restart) 
 		{
@@ -220,6 +242,38 @@ class PlayState extends FlxState
 		
 	}
 	
+	//if tile 852 collide, unlock tile 902 (red mark and question box)
+	private function collectCoinRed(P:FlxObject, C:FlxObject):Void 
+	{
+	//	if(Reg.red > 0)
+			C.kill();
+			GAnalytics.trackEvent("level1", "unlock", "red box", 1);
+			map.setTileProperties(902, FlxObject.NONE);
+			_debug.text='dbg: Red Box Unlocked';
+		
+	}	
+	
+	private function collectCoinBlue(P:FlxObject, C:FlxObject):Void 
+	{
+			C.kill();
+			GAnalytics.trackEvent("level1", "unlock", "blue box", 1);
+			map.setTileProperties(905, FlxObject.NONE);
+			_debug.text='dbg: BoxBlue Unlocked';
+		
+	}	
+	
+	private function collectCoinGreen(P:FlxObject, C:FlxObject):Void 
+	{
+			C.kill();
+			GAnalytics.trackEvent("level1", "unlock", "green box", 1);
+			map.setTileProperties(906, FlxObject.NONE);
+			_debug.text='dbg: Green Box Unlocked';
+	}	
+
+
+
+
+	  	
 	private function hitPlayer(P:FlxObject, Monster:FlxObject):Void 
 	{
 		if (Std.is(Monster, Bullet))
@@ -282,10 +336,34 @@ class PlayState extends FlxState
 			coords = entities[j].split(",");  
 			
 			if (Sparkle == Coin)
-			{
+			{	
 				_coins.add(new Coin(16*(Std.parseInt(coords[0])), (16*Std.parseInt(coords[1])))); 
 			}
 		}
 	}
-	
+	private function placeCoinsRed(CoinData:String, Sparkle:Class<FlxObject>):Void 
+	{
+		var coords:Array<String>;
+		// Each line becomes an entry in the array of strings
+		var entities:Array<String> = CoinData.split("\n");   
+		
+		for (j in 0...(entities.length)) 
+		{
+			//Split each line into two coordinates
+			coords = entities[j].split(",");  
+			
+			if (Sparkle == CoinRed)
+			{	
+				_coinsRed.add(new CoinRed(16*(Std.parseInt(coords[0])), (16*Std.parseInt(coords[1])))); 
+			}
+			if (Sparkle == CoinBlue)
+			{	
+				_coinsBlue.add(new CoinBlue(16*(Std.parseInt(coords[0])), (16*Std.parseInt(coords[1])))); 
+			}
+			if (Sparkle == CoinGreen)
+			{	
+				_coinsGreen.add(new CoinGreen(16*(Std.parseInt(coords[0])), (16*Std.parseInt(coords[1])))); 
+			}
+		}
+	}
 }

@@ -121,8 +121,8 @@ class Player extends FlxSprite
 			//Let's put the shooting code in its own function to keep things organized
 			shoot();  
 		}
-		
-		
+	
+
 		// Animations
 		if (velocity.x > 0 || velocity.x < 0) 
 		{ 
