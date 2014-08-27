@@ -28,7 +28,9 @@ class PlayState extends FlxState
 	private var _bullets:FlxGroup;
 	private var _badbullets:FlxGroup;
 	private var _restart:Bool;
+	private var _tutorial:Bool;
 	private var _text1:FlxText;
+	private var _text2:FlxText;
 	private var _enemies:FlxGroup;
 	private var _coins:FlxGroup;
 	private var _coinsRed:FlxGroup;
@@ -71,7 +73,7 @@ class PlayState extends FlxState
 	
 	
 
-
+		_tutorial = true;
 		_restart = false;
 		
 		add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
@@ -168,8 +170,17 @@ class PlayState extends FlxState
 		// Add last so it goes on top, you know the drill.
 		add(_text1); 
 
+		// Set up the tutorial text
+		_text2 = new FlxText(0, 30, FlxG.width, "Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-box in same color \n Collect 20 coin to hide Ad \n Collect 25 Coin to win \n A-Button to Start Playing! Have Fun");
+		_text2.setFormat(null, 10, FlxColor.GREEN, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
+		_text2.visible = false;
+		_text2.antialiasing = true;
+		_text2.scrollFactor.set(0, 0);
+		// Add last so it goes on top, you know the drill.
+		add(_text2); 
+
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
-_debug.text='dbg: '+map.getTile(6, 8);
+		_debug.text='dbg: '+map.getTile(6, 8);
 		
 			
 		}
@@ -188,6 +199,22 @@ _debug.text='dbg: '+map.getTile(6, 8);
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		_score.text = '$' + Std.string(Reg.score) + '/100';
 		
+		
+		if (_tutorial)
+		{
+			_text2.visible = true;
+			AD.hide();
+			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
+				
+			
+			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
+			{
+				AD.show();
+				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
+				_text2.visible=false;
+				_tutorial=false;
+			}
+		}
 		
 		if (!player.alive)
 		{
@@ -224,7 +251,7 @@ _debug.text='dbg: '+map.getTile(6, 8);
 		C.kill();
 		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
 		//if(Reg.score > 89)
-		if(Reg.score > 19)
+		if(Reg.score == 20)
 		
 		{
 			//disable ADs maybe they hide the last 10 coin else
