@@ -165,8 +165,8 @@ class PlayState extends FlxState
 		{
 			_text1.visible = true;
 			AD.hide();
-			//GAnalytics.trackEvent("level1", "action", "player destroyed", 1);
-		
+			FlxG.vibrate(1000);
+
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
