@@ -44,7 +44,7 @@ public static var virtualPad:FlxVirtualPad;
   //public static var LEADERBOARD_ID = "193031254887";
 	public static var ACHIEVEMENT_ID = "CgkI5-a8jM8FEAIQCg";
 	//public static var ACHIEVEMENT_ID_INC = "193031254887";
-	 //public var googlePlay : GooglePlay;
+	 public var googlePlay : GooglePlay;
 
 	
 	override public function create():Void 
@@ -97,10 +97,10 @@ add(virtualPad);
 		add(_pointer);
 		_option = 0;
 
-	//	 googlePlay = new GooglePlay(new GooglePlayHandler(this));
-    //if(googlePlay.games.isSignedIn())
+		 googlePlay = new GooglePlay(new GooglePlayHandler(this));
+    if(googlePlay.games.isSignedIn())
     {
-   //   googlePlay.games.connect();
+      googlePlay.games.connect();
     }
 		
 		super.create();
@@ -171,7 +171,7 @@ add(virtualPad);
 			switch (_option) 
 			{
 				case 0:
-					///googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQCg");
+					googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQCg");
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 					//#if mobile
@@ -182,18 +182,18 @@ add(virtualPad);
 				case 2:
 					FlxG.openURL("http://flixel.org");
 				case 3:
-					//if(!googlePlay.games.isSignedIn())
+					if(!googlePlay.games.isSignedIn())
 					{
-						//if(!googlePlay.games.connect())
+						if(!googlePlay.games.connect())
 						{
-							//trace("Failed to sign in to GooglePlay.GamesClient");
+							trace("Failed to sign in to GooglePlay.GamesClient");
 						}
 					}
-					//else
+					else
 					{
-						//trace("Signed in");
+						trace("Signed in");
 					}
-					//googlePlay.games.showAchievements();
+					googlePlay.games.showAchievements();
 					
 			}
 		}
@@ -218,6 +218,22 @@ add(virtualPad);
 
 
 
+
+  override public function onAchievementsLoaded(achievements : Array<Achievement>)
+  {
+    for(a in achievements)
+    {
+      trace(a);
+    }
+  }
+
+  override public function onStateListLoaded(states : Array<AppState>)
+  {
+    for(s in states)
+    {
+      trace(s);
+    }
+  }
 
   
   
