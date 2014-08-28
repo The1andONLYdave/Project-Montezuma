@@ -16,7 +16,7 @@ import flixel.ui.FlxVirtualPad;
 import admob.AD;
 import GAnalytics;
 
-import extension.api.GPG;
+//import extension.api.GPG;
 
 
   @:allow(Player.update)
@@ -187,11 +187,11 @@ class PlayState extends FlxState
 		_debug.text='dbg: '+map.getTile(6, 8);
 		
 	
-			GPG.init();
-		_debug.text='dbg: Google Play Game';
+			//GPG.init();
+		//_debug.text='dbg: Google Play Game';
 		
-			var result:String = GPG.test();
-		_debug.text=result;
+			//var result:String = GPG.test();
+		//_debug.text=result;
 		}
 	
 	override public function update():Void 
