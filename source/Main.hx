@@ -9,6 +9,9 @@ import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.FlxG;
 
+
+
+
 class Main extends Sprite 
 { //20x12 tiles = 320x192 pixel
 	var gameWidth:Int = 320; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -19,7 +22,9 @@ class Main extends Sprite
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = false; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-	
+
+
+
 	// You can pretty much ignore everything from here on - your code should go in your states.
 	
 	public static function main():Void
