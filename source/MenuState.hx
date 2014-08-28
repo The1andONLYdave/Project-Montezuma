@@ -8,9 +8,9 @@ import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 //import fr.hyperfiction.Playservices;
-// import ru.zzzzzzerg.linden.GooglePlay;
-// import ru.zzzzzzerg.linden.play.Achievement;
-// import ru.zzzzzzerg.linden.play.AppState;
+import ru.zzzzzzerg.linden.GooglePlay;
+import ru.zzzzzzerg.linden.play.Achievement;
+import ru.zzzzzzerg.linden.play.AppState;
 
 /**
  * ...
@@ -206,19 +206,19 @@ add(virtualPad);
 		FlxG.switchState(new PlayState());
 	}
 	}
-	// class GooglePlayHandler extends ru.zzzzzzerg.linden.play.ConnectionHandler
-// {
-  // var _m : MenuState;
+	class GooglePlayHandler extends ru.zzzzzzerg.linden.play.ConnectionHandler
+{
+  var _m : MenuState;
 
-  // public function new(m : MenuState)
-  // {
-    // super();
-    // _m = m;
-  // }
+  public function new(m : MenuState)
+  {
+    super();
+    _m = m;
+  }
 
 
 
 
   
   
-// }
+}
