@@ -47,6 +47,8 @@
 	<haxelib name="admob" />
 	<haxelib name="ganalytics" />
 	<haxelib name="openfl-gpg"/>
+	<haxelib name="openfl"/>
+<setenv name="PLAY_APP_ID" value="193031254887" />
 	<!--------------------------------HAXEDEFINES----------------------------------->
 	
 	<!--Enable the Flixel core recording system-->

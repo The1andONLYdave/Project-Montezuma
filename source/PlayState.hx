@@ -15,6 +15,10 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 import admob.AD;
 import GAnalytics;
+
+import extension.api.GPG;
+
+
   @:allow(Player.update)
 class PlayState extends FlxState
 {
@@ -182,7 +186,12 @@ class PlayState extends FlxState
 		FlxG.sound.playMusic("assets/music/ScrollingSpace.ogg");
 		_debug.text='dbg: '+map.getTile(6, 8);
 		
-			
+	
+			GPG.init();
+		_debug.text='dbg: Google Play Game';
+		
+			var result:String = GPG.test();
+		_debug.text=result;
 		}
 	
 	override public function update():Void 
