@@ -1,0 +1,13 @@
+{
+  "name": "ganalytics",
+  "url": "http://github.com/emibap/GAnalytics",
+  "license": "BSD",
+  "tags": ["OpenFL","analytics","google"],
+  "description": "A Google Analytics native extension for OpenFL",
+  "version": "0.0.3",
+  "releasenote": "remove unused sample method",
+  "contributors": ["emibap"],
+  "dependencies": {
+
+  }
+}

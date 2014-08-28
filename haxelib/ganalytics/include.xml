@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<ndll name="ganalytics" />
+	
+	<!-- Use the following for an Android Java extension, not needed otherwise -->
+	
+	<dependency name="ganalytics" path="dependencies/android" if="android" />
+	<android extension="org.haxe.extension.GAnalytics" />
+	
+	<dependency name="CFNetwork.framework" 				if="ios" />
+	<dependency name="CoreData.framework" 				if="ios" />
+	<dependency name="SystemConfiguration.framework" 	if="ios" />
+	<dependency name="sqlite3" 							if="ios"/>
+	<dependency name="dependencies/ios/libs/libGoogleAnalyticsServices.a"		if="ios"/>
+	
+	
+</project>
