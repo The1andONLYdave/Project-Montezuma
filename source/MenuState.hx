@@ -7,10 +7,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
-//import fr.hyperfiction.Playservices;
-import ru.zzzzzzerg.linden.GooglePlay;
-import ru.zzzzzzerg.linden.play.Achievement;
-import ru.zzzzzzerg.linden.play.AppState;
 
 /**
  * ...
@@ -28,7 +24,6 @@ class MenuState extends FlxState
 	private var _text3:FlxText;
 	private var _text4:FlxText;
 	private var _text5:FlxText;  
-	private var _text6:FlxText;  
 	
 	private var _pointer:FlxSprite;
 	
@@ -39,12 +34,7 @@ class MenuState extends FlxState
 	
 public static var virtualPad:FlxVirtualPad;
 	
-	
-	
-  //public static var LEADERBOARD_ID = "193031254887";
-	public static var ACHIEVEMENT_ID = "CgkI5-a8jM8FEAIQCg";
-	//public static var ACHIEVEMENT_ID_INC = "193031254887";
-	 public var googlePlay : GooglePlay;
+
 
 	
 	override public function create():Void 
@@ -82,14 +72,12 @@ add(virtualPad);
 		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play (click A for select/jump, B for shooting)");
 		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Give us Feedback");
 		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
-		_text6.color = _text3.color = _text4.color = _text5.color = 0xAA00A2E8;
-		_text6.size = _text3.size = _text4.size = _text5.size = 8;
-		_text6.antialiasing = _text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
+		_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
+		_text3.size = _text4.size = _text5.size = 8;
+		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
 		add(_text3);
 		add(_text4);
 		add(_text5);
-		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Sign In Google Play Game");
-		add(_text6);
 		
 		_pointer = new FlxSprite();
 		_pointer.loadGraphic("assets/art/pointer.png");
@@ -97,12 +85,6 @@ add(virtualPad);
 		add(_pointer);
 		_option = 0;
 
-		 googlePlay = new GooglePlay(new GooglePlayHandler(this));
-    if(googlePlay.games.isSignedIn())
-    {
-      googlePlay.games.connect();
-    }
-		
 		super.create();
 		FlxG.sound.playMusic("assets/music/Menubackground.ogg");
 	}
@@ -135,8 +117,6 @@ add(virtualPad);
 				_pointer.y = _text4.y;
 			case 2:
 				_pointer.y = _text5.y;
-			case 3:
-				_pointer.y = _text6.y;
 		}
 		_up = FlxG.keys.anyPressed(["UP", "W"]);
 		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
@@ -171,7 +151,6 @@ add(virtualPad);
 			switch (_option) 
 			{
 				case 0:
-					googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQCg");
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 					//#if mobile
@@ -181,20 +160,6 @@ add(virtualPad);
 					FlxG.openURL("http://kulsch-it.de/#contact");
 				case 2:
 					FlxG.openURL("http://flixel.org");
-				case 3:
-					if(!googlePlay.games.isSignedIn())
-					{
-						if(!googlePlay.games.connect())
-						{
-							trace("Failed to sign in to GooglePlay.GamesClient");
-						}
-					}
-					else
-					{
-						trace("Signed in");
-					}
-					googlePlay.games.showAchievements();
-					
 			}
 		}
 		
@@ -205,36 +170,4 @@ add(virtualPad);
 	{
 		FlxG.switchState(new PlayState());
 	}
-	}
-	class GooglePlayHandler extends ru.zzzzzzerg.linden.play.ConnectionHandler
-{
-  var _m : MenuState;
-
-  public function new(m : MenuState)
-  {
-    super();
-    _m = m;
-  }
-
-
-
-
-  override public function onAchievementsLoaded(achievements : Array<Achievement>)
-  {
-    for(a in achievements)
-    {
-      trace(a);
-    }
-  }
-
-  override public function onStateListLoaded(states : Array<AppState>)
-  {
-    for(s in states)
-    {
-      trace(s);
-    }
-  }
-
-  
-  
 }
