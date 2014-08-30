@@ -9,9 +9,9 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 import GAnalytics;
 
-import ru.zzzzzzerg.linden.GooglePlay;
-import ru.zzzzzzerg.linden.play.Achievement;
-import ru.zzzzzzerg.linden.play.AppState;
+//import ru.zzzzzzerg.linden.GooglePlay;
+//import ru.zzzzzzerg.linden.play.Achievement;
+//import ru.zzzzzzerg.linden.play.AppState;
 
 /**
  * ...
@@ -30,8 +30,8 @@ class MenuState extends FlxState
 	private var _text4:FlxText;
 	private var _text5:FlxText;  
 	private var _text6:FlxText;
-	public static var STATE_KEY = 1;
-	public var googlePlay : GooglePlay;
+	//public static var STATE_KEY = 1;
+	//public var googlePlay : GooglePlay;
 		
 	private var _pointer:FlxSprite;
 	
@@ -46,9 +46,9 @@ public static var virtualPad:FlxVirtualPad;
 	{
 		
 
-	GAnalytics.startSession( "UA-47310419-7" );
-		GAnalytics.trackScreen( "90363841" );
-		GAnalytics.trackEvent("mainmenufree", "action", "starting", 1);
+	//GAnalytics.startSession( "UA-47310419-7" );
+		//GAnalytics.trackScreen( "90363841" );
+		//GAnalytics.trackEvent("mainmenufree", "action", "starting", 1);
 
 	 
 
@@ -98,23 +98,23 @@ add(virtualPad);
 		_option = 0;
 
 		super.create();
-		 googlePlay = new GooglePlay(new PlayState.GooglePlayHandler());
-	    if(googlePlay.games.isSignedIn())
-    {
-      googlePlay.games.connect();
-    }
+		// googlePlay = new GooglePlay(new PlayState.GooglePlayHandler());
+	    //if(googlePlay.games.isSignedIn())
+   // {
+    //  googlePlay.games.connect();
+    //}
 	
-	 if(!googlePlay.games.isSignedIn())
-    {
-      if(!googlePlay.games.connect())
-      {
-        trace("Failed to sign in to GooglePlay.GamesClient");
-      }
-    }
-    else
-    {
-      trace("Signed in");
-    }
+	 //if(!googlePlay.games.isSignedIn())
+    //{
+     // if(!googlePlay.games.connect())
+      //{
+       // trace("Failed to sign in to GooglePlay.GamesClient");
+      //}
+    //}
+    //else
+    //{
+     // trace("Signed in");
+    //}
 	
 		FlxG.sound.playMusic("assets/music/Menubackground.ogg");
 	 }
@@ -194,7 +194,7 @@ add(virtualPad);
 				case 2:
 					FlxG.openURL("http://flixel.org");
 				case 3:
-					googlePlay.games.showAchievements();
+					//googlePlay.games.showAchievements();
 			}
 		}
 		
