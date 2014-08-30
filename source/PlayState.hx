@@ -15,9 +15,22 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
 import admob.AD;
 import GAnalytics;
+
+import ru.zzzzzzerg.linden.GooglePlay;
+import ru.zzzzzzerg.linden.play.Achievement;
+import ru.zzzzzzerg.linden.play.AppState;
+
   @:allow(Player.update)
 class PlayState extends FlxState
 {
+	public static var LEADERBOARD_ID = "CgkI5-a8jM8FEAIQEA";
+	public static var ACHIEVEMENT_ID = "CgkI5-a8jM8FEAIQCg";
+	public static var ACHIEVEMENT_ID_INC = "CgkI5-a8jM8FEAIQAg";
+
+	public static var STATE_KEY = 1;
+
+	public var googlePlay : GooglePlay;
+
 	public var map:FlxTilemap;
 	public var background:FlxTilemap;
 	public var ladders:FlxTilemap;
@@ -45,6 +58,8 @@ class PlayState extends FlxState
 	//private var _UINT_boxGreen:Uint;
 	//private var _UINT_boxBlue:Uint;
 	public var _boxRed:UInt;
+	private var enemyHurted:Int;
+	private var enemyKilled:Int;
 	
 	override public function create():Void
 	{
@@ -57,7 +72,8 @@ class PlayState extends FlxState
 		map.allowCollisions = FlxObject.ANY;
 		background = new FlxTilemap();
 		ladders = new FlxTilemap();
-	
+		enemyHurted=0;
+		enemyKilled=0;
 	
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
 //	_UINT_switchGreen=map.getTile(9, 5);
@@ -183,6 +199,23 @@ class PlayState extends FlxState
 		_debug.text='dbg: '+map.getTile(6, 8);
 		
 			
+    googlePlay = new GooglePlay(new GooglePlayHandler(this));
+    if(googlePlay.games.isSignedIn())
+    {
+      googlePlay.games.connect();
+    }
+	
+	 if(!googlePlay.games.isSignedIn())
+    {
+      if(!googlePlay.games.connect())
+      {
+        trace("Failed to sign in to GooglePlay.GamesClient");
+      }
+    }
+    else
+    {
+      trace("Signed in");
+    }
 		}
 	
 	override public function update():Void 
@@ -205,7 +238,9 @@ class PlayState extends FlxState
 			_text2.visible = true;
 			AD.hide();
 			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
-				
+			    googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
+				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
+				googlePlay.games.showAchievements();
 			
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
@@ -213,6 +248,7 @@ class PlayState extends FlxState
 				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
 				_text2.visible=false;
 				_tutorial=false;
+				googlePlay.games.unlockAchievement(ACHIEVEMENT_ID);
 			}
 		}
 		
@@ -220,8 +256,9 @@ class PlayState extends FlxState
 		{
 			_text1.visible = true;
 			AD.hide();
-			//FlxG.vibrate(1000);
-
+			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
+			GAnalytics.trackEvent("level1", "action", "player died", 1);
+				
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
@@ -250,7 +287,10 @@ class PlayState extends FlxState
 	{
 		C.kill();
 		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
-		//if(Reg.score > 89)
+		googlePlay.games.incrementAchievement(ACHIEVEMENT_ID_INC, 1);
+		if(Reg.score == 1) {
+		googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQAQ");
+		}//if(Reg.score > 89)
 		if(Reg.score == 20)
 		
 		{
@@ -261,6 +301,12 @@ class PlayState extends FlxState
 		if(Reg.score > 24)
 		{
 			GAnalytics.trackEvent("level1", "action", "Collected 25 coin", 1);
+			if(enemyHurted<1){googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBw");}
+			if(enemyKilled<1){googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBg");}
+			
+			googlePlay.games.submitScore(LEADERBOARD_ID, Reg.score);
+			googlePlay.games.showLeaderboard(LEADERBOARD_ID);
+			
 			FlxG.switchState(new WinningState());
 			AD.hide();
 		}
@@ -305,15 +351,22 @@ class PlayState extends FlxState
 	{
 		if (Std.is(Monster, Bullet))
 		{
-			GAnalytics.trackEvent("level1", "action", "Monster hitPlayer", 1);
+			GAnalytics.trackEvent("level1", "action", "Monster killed", 1);
+			googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBA");
+			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQBQ", 1);
+			GAnalytics.trackEvent("level1", "action", "Monster killed tracked", 1);
 			Monster.kill();
+			enemyKilled++;
+			trace(["HitPlayer",enemyHurted,enemyKilled]);
+	
 		}
 		
 		if (Monster.health > 0)
 		{
 			GAnalytics.trackEvent("level1", "action", "Monster hurtingPlayer", 1);
 			// This should still be more interesting
-			P.hurt(1); 
+			P.hurt(1);
+			trace(["HitPlayer",enemyHurted,enemyKilled]);			
 		}
 	}
 	
@@ -322,11 +375,14 @@ class PlayState extends FlxState
 		if (!Monster.alive) 
 		{ 
 			// Just in case
+			trace(["hitmonster",enemyHurted,enemyKilled]);
 			return; 
 		}  
 		
 		if (Monster.health > 0) 
 		{
+			enemyHurted++;
+			trace(["hitmonster",enemyHurted,enemyKilled]);
 			Blt.kill();
 			Monster.hurt(1);
 		}
@@ -393,4 +449,52 @@ class PlayState extends FlxState
 			}
 		}
 	}
+	 function onSignInGamesClick(event : MouseEvent)
+  {
+    if(!googlePlay.games.isSignedIn())
+    {
+      if(!googlePlay.games.connect())
+      {
+        trace("Failed to sign in to GooglePlay.GamesClient");
+      }
+    }
+    else
+    {
+      trace("Signed in");
+    }
+  }
+
+  function onSignOutGamesClick(event : MouseEvent)
+  {
+    googlePlay.games.signOut();
+  }
+
+
+  function onUnlockAchievementClick(event : MouseEvent)
+  {
+    trace(["Unlock", ACHIEVEMENT_ID]);
+	googlePlay.games.unlockAchievement(ACHIEVEMENT_ID);
+  }
+
+  function onUnlockIncrementalAchievementClick(event : MouseEvent)
+  {
+      trace(["Increment", ACHIEVEMENT_ID_INC]);
+	  googlePlay.games.incrementAchievement(ACHIEVEMENT_ID_INC, 1);
+  }
+
+  function onShowAchievementsClick(event : MouseEvent)
+  {
+    googlePlay.games.showAchievements();
+  }
+
+  function onUpdateScoreClick(event : MouseEvent)
+  {
+    googlePlay.games.submitScore(LEADERBOARD_ID, Std.random(1000));
+  }
+
+  function onShowLeaderboardClick(event : MouseEvent)
+  {
+    googlePlay.games.showLeaderboard(LEADERBOARD_ID);
+  }
+
 }
