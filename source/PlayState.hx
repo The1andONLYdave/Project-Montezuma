@@ -199,7 +199,7 @@ class PlayState extends FlxState
 		_debug.text='dbg: '+map.getTile(6, 8);
 		
 			
-    googlePlay = new GooglePlay(new GooglePlayHandler(this));
+    googlePlay = new GooglePlay(new GooglePlayHandler());
     if(googlePlay.games.isSignedIn())
     {
       googlePlay.games.connect();
@@ -449,7 +449,7 @@ class PlayState extends FlxState
 			}
 		}
 	}
-	 function onSignInGamesClick(event : MouseEvent)
+	 function onSignInGamesClick()
   {
     if(!googlePlay.games.isSignedIn())
     {
@@ -464,37 +464,80 @@ class PlayState extends FlxState
     }
   }
 
-  function onSignOutGamesClick(event : MouseEvent)
+  function onSignOutGamesClick()
   {
     googlePlay.games.signOut();
   }
 
 
-  function onUnlockAchievementClick(event : MouseEvent)
+  function onUnlockAchievementClick()
   {
     trace(["Unlock", ACHIEVEMENT_ID]);
 	googlePlay.games.unlockAchievement(ACHIEVEMENT_ID);
   }
 
-  function onUnlockIncrementalAchievementClick(event : MouseEvent)
+  function onUnlockIncrementalAchievementClick()
   {
       trace(["Increment", ACHIEVEMENT_ID_INC]);
 	  googlePlay.games.incrementAchievement(ACHIEVEMENT_ID_INC, 1);
   }
 
-  function onShowAchievementsClick(event : MouseEvent)
+  function onShowAchievementsClick()
   {
     googlePlay.games.showAchievements();
   }
 
-  function onUpdateScoreClick(event : MouseEvent)
+  function onUpdateScoreClick()
   {
     googlePlay.games.submitScore(LEADERBOARD_ID, Std.random(1000));
   }
 
-  function onShowLeaderboardClick(event : MouseEvent)
+  function onShowLeaderboardClick()
   {
     googlePlay.games.showLeaderboard(LEADERBOARD_ID);
   }
 
+}
+class GooglePlayHandler extends ru.zzzzzzerg.linden.play.ConnectionHandler
+{
+  //var _m : Main;
+
+  //public function new(m : Main)
+ // {
+   // super();
+  //  _m = m;
+ // }
+
+  
+  override public function onAchievementsLoaded(achievements : Array<Achievement>)
+  {
+    for(a in achievements)
+    {
+      trace(a);
+    }
+  }
+
+  override public function onStateListLoaded(states : Array<AppState>)
+  {
+    for(s in states)
+    {
+      trace(s);
+    }
+  }
+
+
+  override public function onWarning(msg : String, where : String)
+  {
+    trace(["Warning", msg, where]);
+  }
+
+  override public function onError(what : String, code : Int, where : String)
+  {
+    trace(["Error", what, code, where]);
+  }
+
+  override public function onException(msg : String, where : String)
+  {
+    trace(["Exception", msg, where]);
+  }
 }

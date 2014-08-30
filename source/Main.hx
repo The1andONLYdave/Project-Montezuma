@@ -9,6 +9,10 @@ import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.FlxG;
 
+import ru.zzzzzzerg.linden.GooglePlay;
+import ru.zzzzzzerg.linden.play.Achievement;
+import ru.zzzzzzerg.linden.play.AppState;
+
 class Main extends Sprite 
 { //20x12 tiles = 320x192 pixel
 	var gameWidth:Int = 320; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -19,7 +23,13 @@ class Main extends Sprite
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = false; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-	
+	public static var LEADERBOARD_ID = "CgkI5-a8jM8FEAIQEA";
+	public static var ACHIEVEMENT_ID = "CgkI5-a8jM8FEAIQCg";
+	public static var ACHIEVEMENT_ID_INC = "CgkI5-a8jM8FEAIQAg";
+
+	public static var STATE_KEY = 1;
+
+	public var googlePlay : GooglePlay;
 	// You can pretty much ignore everything from here on - your code should go in your states.
 	
 	public static function main():Void
