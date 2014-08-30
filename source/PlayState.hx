@@ -60,6 +60,7 @@ class PlayState extends FlxState
 	public var _boxRed:UInt;
 	private var enemyHurted:Int;
 	private var enemyKilled:Int;
+	private var achivement:Int;
 	
 	override public function create():Void
 	{
@@ -74,7 +75,7 @@ class PlayState extends FlxState
 		ladders = new FlxTilemap();
 		enemyHurted=0;
 		enemyKilled=0;
-	
+		achivement=0;
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
 //	_UINT_switchGreen=map.getTile(9, 5);
 //	_UINT_switchBlue=map.getTile(8, 5);
@@ -240,7 +241,11 @@ class PlayState extends FlxState
 			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
 			    googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
+				if(achivement<1)
+				{
+				achivement++;
 				googlePlay.games.showAchievements();
+				}
 			
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
