@@ -48,11 +48,11 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
-		//adinit("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
+		AD.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
 		GAnalytics.startSession( "UA-47310419-7" );
 		GAnalytics.trackScreen( "90363841" );
-		GAnalytics.trackEvent("level1paid", "action", "starting", 1);
-		//ad.show();
+		GAnalytics.trackEvent("level1", "action", "starting", 1);
+		AD.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
 		background = new FlxTilemap();
@@ -171,7 +171,7 @@ class PlayState extends FlxState
 		add(_text1); 
 
 		// Set up the tutorial text
-		_text2 = new FlxText(0, 30, FlxG.width, "Thank you for supporting me!\n Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-box in same color \n Collect 20 coin to hide Ad \n Collect 25 Coin to win \n A-Button to Start Playing! Have Fun");
+		_text2 = new FlxText(0, 30, FlxG.width, "Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-box in same color \n Collect 20 coin to hide Ad \n Collect 25 Coin to win \n A-Button to Start Playing! Have Fun");
 		_text2.setFormat(null, 10, FlxColor.GREEN, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text2.visible = false;
 		_text2.antialiasing = true;
@@ -203,14 +203,14 @@ class PlayState extends FlxState
 		if (_tutorial)
 		{
 			_text2.visible = true;
-			//adhide();
-			GAnalytics.trackEvent("level1paid", "action", "tutorial display", 1);
+			AD.hide();
+			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
 				
 			
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				//ad.show();
-				GAnalytics.trackEvent("level1paid", "action", "tutorial button", 1);
+				AD.show();
+				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
 				_text2.visible=false;
 				_tutorial=false;
 			}
@@ -219,14 +219,14 @@ class PlayState extends FlxState
 		if (!player.alive)
 		{
 			_text1.visible = true;
-			//adhide();
+			AD.hide();
 			//FlxG.vibrate(1000);
 
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				////adshow();
-				GAnalytics.trackEvent("level1paid", "action", "another try(pressed A Button)", 1);
+				AD.show();
+				GAnalytics.trackEvent("level1", "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}
 		}
@@ -249,20 +249,20 @@ class PlayState extends FlxState
 	private function collectCoin(P:FlxObject, C:FlxObject):Void 
 	{
 		C.kill();
-		GAnalytics.trackEvent("level1paid", "action", "Collected a coin", 1);
+		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
 		//if(Reg.score > 89)
 		if(Reg.score == 20)
 		
 		{
 			//disable ADs maybe they hide the last 10 coin else
-			GAnalytics.trackEvent("level1paid", "action", "Collected 20 coin", 1);
-			//adhide();
+			GAnalytics.trackEvent("level1", "action", "Collected 20 coin", 1);
+			AD.hide();
 		}
 		if(Reg.score > 24)
 		{
-			GAnalytics.trackEvent("level1paid", "action", "Collected 25 coin", 1);
+			GAnalytics.trackEvent("level1", "action", "Collected 25 coin", 1);
 			FlxG.switchState(new WinningState());
-			//adhide();
+			AD.hide();
 		}
 		
 		
@@ -274,7 +274,7 @@ class PlayState extends FlxState
 	{
 	//	if(Reg.red > 0)
 			C.kill();
-			GAnalytics.trackEvent("level1paid", "unlock", "red box", 1);
+			GAnalytics.trackEvent("level1", "unlock", "red box", 1);
 			map.setTileProperties(902, FlxObject.NONE);
 			_debug.text='dbg: Red Box Unlocked';
 		
@@ -283,7 +283,7 @@ class PlayState extends FlxState
 	private function collectCoinBlue(P:FlxObject, C:FlxObject):Void 
 	{
 			C.kill();
-			GAnalytics.trackEvent("level1paid", "unlock", "blue box", 1);
+			GAnalytics.trackEvent("level1", "unlock", "blue box", 1);
 			map.setTileProperties(905, FlxObject.NONE);
 			_debug.text='dbg: BoxBlue Unlocked';
 		
@@ -292,7 +292,7 @@ class PlayState extends FlxState
 	private function collectCoinGreen(P:FlxObject, C:FlxObject):Void 
 	{
 			C.kill();
-			GAnalytics.trackEvent("level1paid", "unlock", "green box", 1);
+			GAnalytics.trackEvent("level1", "unlock", "green box", 1);
 			map.setTileProperties(906, FlxObject.NONE);
 			_debug.text='dbg: Green Box Unlocked';
 	}	
@@ -305,13 +305,13 @@ class PlayState extends FlxState
 	{
 		if (Std.is(Monster, Bullet))
 		{
-			GAnalytics.trackEvent("level1paid", "action", "Monster hitPlayer", 1);
+			GAnalytics.trackEvent("level1", "action", "Monster hitPlayer", 1);
 			Monster.kill();
 		}
 		
 		if (Monster.health > 0)
 		{
-			GAnalytics.trackEvent("level1paid", "action", "Monster hurtingPlayer", 1);
+			GAnalytics.trackEvent("level1", "action", "Monster hurtingPlayer", 1);
 			// This should still be more interesting
 			P.hurt(1); 
 		}
