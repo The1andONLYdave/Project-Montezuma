@@ -7,6 +7,11 @@ import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
+import GAnalytics;
+
+import ru.zzzzzzerg.linden.GooglePlay;
+import ru.zzzzzzerg.linden.play.Achievement;
+import ru.zzzzzzerg.linden.play.AppState;
 
 /**
  * ...
@@ -24,7 +29,10 @@ class MenuState extends FlxState
 	private var _text3:FlxText;
 	private var _text4:FlxText;
 	private var _text5:FlxText;  
-	
+	private var _text6:FlxText;
+	public static var STATE_KEY = 1;
+	public var googlePlay : GooglePlay;
+		
 	private var _pointer:FlxSprite;
 	
 	// This will indicate what the pointer is pointing at
@@ -34,13 +42,15 @@ class MenuState extends FlxState
 	
 public static var virtualPad:FlxVirtualPad;
 	
-
-
-	
 	override public function create():Void 
 	{
 		
 
+	GAnalytics.startSession( "UA-47310419-7" );
+		GAnalytics.trackScreen( "90363841" );
+		GAnalytics.trackEvent("mainmenufree", "action", "starting", 1);
+
+	 
 
 virtualPad = new FlxVirtualPad(UP_DOWN, A);
 add(virtualPad);
@@ -72,12 +82,14 @@ add(virtualPad);
 		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play Level");
 		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Give us Feedback");
 		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
-		_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
-		_text3.size = _text4.size = _text5.size = 8;
-		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
+		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 50, 150, "Achivements Display");
+		_text6.color =_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
+		_text6.size = _text3.size = _text4.size = _text5.size = 8;
+		_text6.antialiasing = _text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
 		add(_text3);
 		add(_text4);
 		add(_text5);
+		add(_text6);
 		
 		_pointer = new FlxSprite();
 		_pointer.loadGraphic("assets/art/pointer.png");
@@ -86,8 +98,27 @@ add(virtualPad);
 		_option = 0;
 
 		super.create();
+		 googlePlay = new GooglePlay(new PlayState.GooglePlayHandler());
+	    if(googlePlay.games.isSignedIn())
+    {
+      googlePlay.games.connect();
+    }
+	
+	 if(!googlePlay.games.isSignedIn())
+    {
+      if(!googlePlay.games.connect())
+      {
+        trace("Failed to sign in to GooglePlay.GamesClient");
+      }
+    }
+    else
+    {
+      trace("Signed in");
+    }
+	
 		FlxG.sound.playMusic("assets/music/Menubackground.ogg");
-	}
+	 }
+    
 	
 	override public function update():Void 
 	{
@@ -117,6 +148,8 @@ add(virtualPad);
 				_pointer.y = _text4.y;
 			case 2:
 				_pointer.y = _text5.y;
+			case 3:
+				_pointer.y = _text6.y;
 		}
 		_up = FlxG.keys.anyPressed(["UP", "W"]);
 		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
@@ -160,6 +193,8 @@ add(virtualPad);
 					FlxG.openURL("http://kulsch-it.de/#contact");
 				case 2:
 					FlxG.openURL("http://flixel.org");
+				case 3:
+					googlePlay.games.showAchievements();
 			}
 		}
 		

@@ -201,11 +201,7 @@ class PlayState extends FlxState
 		
 			
     googlePlay = new GooglePlay(new GooglePlayHandler());
-    if(googlePlay.games.isSignedIn())
-    {
-      googlePlay.games.connect();
-    }
-	
+   
 	 if(!googlePlay.games.isSignedIn())
     {
       if(!googlePlay.games.connect())
@@ -241,11 +237,11 @@ class PlayState extends FlxState
 			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
 			    googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
-				if(achivement<1)
-				{
-				achivement++;
-				googlePlay.games.showAchievements();
-				}
+		//		if(achivement<1)
+		//		{
+		//		achivement++;
+		//		googlePlay.games.showAchievements();
+		//		}
 			
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
