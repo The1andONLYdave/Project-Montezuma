@@ -37,7 +37,7 @@
 	
 	<!--In case you want to use nape with flixel-->
 	<!--haxelib name="nape" /-->
-	<haxelib name="admob" />
+<!--	<haxelib name="admob" />-->
 	<haxelib name="ganalytics" />
 	<!--<haxelib name="openfl-gpg"/>/-->
 	<!--<haxelib name="openfl"/>/-->
@@ -58,7 +58,7 @@
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	<window orientation="landscape"/>
 	
-	<java path="android-template/libs/google-play-services.jar" if="android" />
+	<!--<java path="android-template/libs/google-play-services.jar" if="android" />-->
 <template path="android-template/AndroidManifest.xml" rename="AndroidManifest.xml" if="android" />
 <template path="android-template/src/org/haxe/lime/GameActivity.java" rename="src/org/haxe/lime/GameActivity.java" if="android" />
 

@@ -13,7 +13,7 @@ import flixel.util.FlxPoint;
 import openfl.Assets;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
-import admob.AD;
+//import admob.AD;
 import GAnalytics;
 
 import ru.zzzzzzerg.linden.GooglePlay;
@@ -63,11 +63,11 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
-		AD.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
+		//ad.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
 		GAnalytics.startSession( "UA-47310419-7" );
 		GAnalytics.trackScreen( "90363841" );
 		GAnalytics.trackEvent("level1", "action", "starting", 1);
-		AD.show();
+		//ad.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
 		background = new FlxTilemap();
@@ -236,7 +236,7 @@ class PlayState extends FlxState
 		if (_tutorial)
 		{
 			_text2.visible = true;
-			AD.hide();
+			//ad.hide();
 			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
 			    googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
@@ -244,7 +244,7 @@ class PlayState extends FlxState
 			
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				AD.show();
+				//ad.show();
 				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
 				_text2.visible=false;
 				_tutorial=false;
@@ -255,14 +255,14 @@ class PlayState extends FlxState
 		if (!player.alive)
 		{
 			_text1.visible = true;
-			AD.hide();
+			//ad.hide();
 			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
 			GAnalytics.trackEvent("level1", "action", "player died", 1);
 				
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				AD.show();
+				//ad.show();
 				GAnalytics.trackEvent("level1", "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}
@@ -296,7 +296,7 @@ class PlayState extends FlxState
 		{
 			//disable ADs maybe they hide the last 10 coin else
 			GAnalytics.trackEvent("level1", "action", "Collected 20 coin", 1);
-			AD.hide();
+			//ad.hide();
 		}
 		if(Reg.score > 24)
 		{
@@ -308,7 +308,7 @@ class PlayState extends FlxState
 			googlePlay.games.showLeaderboard(LEADERBOARD_ID);
 			
 			FlxG.switchState(new WinningState());
-			AD.hide();
+			//ad.hide();
 		}
 		
 		
