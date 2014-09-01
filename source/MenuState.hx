@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
+//import extension.share.Share;
 
 /**
  * ...
@@ -35,7 +36,6 @@ class MenuState extends FlxState
 public static var virtualPad:FlxVirtualPad;
 	
 
-
 	
 	override public function create():Void 
 	{
@@ -44,6 +44,9 @@ public static var virtualPad:FlxVirtualPad;
 
 virtualPad = new FlxVirtualPad(UP_DOWN, A);
 add(virtualPad);
+//Share.init(Share.TWITTER,'', 'https://play.google.com/store/apps/details?id=com.dlka.projectmontezuma');
+//Share.init(Share.FACEBOOK,'330489763786884', 'https://play.google.com/store/apps/details?id=com.dlka.projectmontezuma'); // 12344123 is a random number (you should place your facebook app id here.)
+
 
 	
 		FlxG.mouse.visible = false;
@@ -170,4 +173,8 @@ add(virtualPad);
 	{
 		FlxG.switchState(new PlayState());
 	}
+	// function shareStuff(){
+	// Share.share('Hi, I\'m testing the OpenFL-Sharing extension!')
+	// }
+
 }

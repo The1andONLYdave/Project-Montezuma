@@ -20,6 +20,8 @@ import ru.zzzzzzerg.linden.GooglePlay;
 import ru.zzzzzzerg.linden.play.Achievement;
 import ru.zzzzzzerg.linden.play.AppState;
 
+
+
   @:allow(Player.update)
 class PlayState extends FlxState
 {
