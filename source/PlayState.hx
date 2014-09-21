@@ -54,6 +54,8 @@ class PlayState extends FlxState
 	private var _score:FlxText;
 	private var _debug:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
+	private var black:Bool=false;
+	private var increment:Int;
 	//private var _UINT_switchGreen:Uint;
 	//private var _UINT_switchBlue:Uint;
 	//private var _UINT_switchRed:Uint;
@@ -78,6 +80,7 @@ class PlayState extends FlxState
 		enemyHurted=0;
 		enemyKilled=0;
 		achivement=0;
+		increment=0;
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
 //	_UINT_switchGreen=map.getTile(9, 5);
 //	_UINT_switchBlue=map.getTile(8, 5);
@@ -121,7 +124,7 @@ class PlayState extends FlxState
 		_badbullets = new FlxGroup();
 		 
 		//
-		add(player = new Player(480, 20, this, _gibs, _bullets));
+		add(player = new Player(400, 70, this, _gibs, _bullets));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -190,7 +193,7 @@ class PlayState extends FlxState
 		add(_text1); 
 
 		// Set up the tutorial text
-		_text2 = new FlxText(0, 30, FlxG.width, "Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-box in same color \n Collect 20 coin to hide Ad \n Collect 25 Coin to win \n A-Button to Start Playing! Have Fun");
+		_text2 = new FlxText(0, 30, FlxG.width, "Official Developer Preview \n \n Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-Box in same color \n  Collect 25 Coin to win \n \n \n Press A to Start Playing! Have Fun");
 		_text2.setFormat(null, 10, FlxColor.GREEN, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text2.visible = false;
 		_text2.antialiasing = true;
@@ -214,6 +217,7 @@ class PlayState extends FlxState
     else
     {
       trace("Signed in");
+	   _debug.text='dbg:signed gpg in';
     }
 		}
 	
@@ -234,24 +238,32 @@ class PlayState extends FlxState
 		
 		if (_tutorial)
 		{
-			_text2.visible = true;
 			//ad.hide();
-			GAnalytics.trackEvent("level1", "action", "tutorial display", 1);
-			    googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
-				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
-		//		if(achivement<1)
-		//		{
-		//		achivement++;
-		//		googlePlay.games.showAchievements();
-		//		}
+			if(!black){
+				FlxG.camera.fade(FlxColor.BLACK, .33, false);
+				FlxG.camera.flash(0xff000000, 1);
+				black=true;
+				trace("black");
+				GAnalytics.trackEvent("level1", "action", "tutorial black display", 1);
+			}
+			_text2.visible = true;
 			
+			trace("run "+increment);
+			increment++;
+			
+			    
+	
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
 				//ad.show();
 				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
 				_text2.visible=false;
 				_tutorial=false;
+				
 				googlePlay.games.unlockAchievement(ACHIEVEMENT_ID);
+				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
+				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
+				
 			}
 		}
 		

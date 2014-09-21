@@ -57,7 +57,7 @@ class Main extends Sprite
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
-		
+		trace("stageWidth-Height "+stageWidth+" "+stageHeight);
 		//if((stageWidth/stageHeight)>1.666666667){
 		//var tempconversion:Float=stageHeight*1.666666667;
 		//stageWidth=Std.int(tempconversion);
@@ -71,8 +71,10 @@ class Main extends Sprite
 			zoom = Math.min(ratioX, ratioY);//3,75 or 2,5 
 			gameWidth = Math.ceil(stageWidth / zoom);//342 or 320
 			gameHeight = Math.ceil(stageHeight / zoom);//192 or 192
+		trace("ratio x y "+ratioX+" "+ratioY);
+		
 		}
-
+		trace("flxgame"+"  "+gameWidth+"  "+192+"  "+initialState+"  "+zoom+"  "+framerate+"  "+framerate+"  "+skipSplash+"  "+startFullscreen);
 		addChild(new FlxGame(gameWidth, 192, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 	}
 }

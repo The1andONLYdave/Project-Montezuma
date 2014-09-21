@@ -2,39 +2,35 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.0.8" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
+	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.0.9" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
 	
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
 	<window width="320" height="192" fps="60" background="#000000" hardware="true" vsync="true" if="desktop"/>
 	<window width="0" height="0" fps="60" background="#000000" hardware="true" vsync="true" if="mobile"/>
+		
+	<window if="desktop" fullscreen="false" resizable="true" />
 	
-	<!--Web-specific-->
-	<window if="web" orientation="landscape"  />
-	
-	<!--Desktop-specific-->
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
-	
-	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+	<window if="mobile" fullscreen="true"/>
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" include="*.ogg" unless="flash"/>
-	<assets path="assets" include="*.mp3" if="flash"/>
+	<assets path="assets" />
+	<!--<assets path="assets" include="*.ogg" unless="flash"/>-->
+	<!--<assets path="assets" include="*.mp3" if="flash"/>-->
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>
-	<haxelib name="openfl-share"/>
+	<!--<haxelib name="openfl-share"/>-->
 	
 	<!--In case you want to use the ui package-->
 	<!--haxelib name="flixel-ui"/-->
 	
 <!--	<haxelib name="admob" />-->
 	<haxelib name="ganalytics" if="android"/>
-	 <haxelib name="openfl" if="android" />
+	<!-- <haxelib name="openfl" if="android" />-->
   <haxelib name="linden-google-play" if="android"/>
 <template path="ids.xml" rename="res/values/ids.xml" if="android" />
   
