@@ -124,7 +124,7 @@ class PlayState extends FlxState
 		_badbullets = new FlxGroup();
 		 
 		//
-		add(player = new Player(400, 70, this, _gibs, _bullets));
+		add(player = new Player(400, 50, this, _gibs, _bullets));
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -240,16 +240,17 @@ class PlayState extends FlxState
 		{
 			//ad.hide();
 			if(!black){
-				FlxG.camera.fade(FlxColor.BLACK, .33, false);
+				//FlxG.camera.fade(FlxColor.BLACK, .33, false);
 				FlxG.camera.flash(0xff000000, 1);
 				black=true;
 				trace("black");
 				GAnalytics.trackEvent("level1", "action", "tutorial black display", 1);
+				_text2.visible = true;
 			}
-			_text2.visible = true;
 			
-			trace("run "+increment);
-			increment++;
+			
+			//trace("run "+increment);
+			//increment++;
 			
 			    
 	
