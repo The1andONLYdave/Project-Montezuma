@@ -65,13 +65,14 @@ class PlayState extends FlxState
 	private var enemyHurted:Int;
 	private var enemyKilled:Int;
 	private var achivement:Int;
+	private var maximumScore:Int;
 	
 	override public function create():Void
 	{
 		//ad.init("ca-app-pub-8761501900041217/8764631680", AD.CENTER, AD.BOTTOM, AD.BANNER_LANDSCAPE, true);
 		GAnalytics.startSession( "UA-47310419-7" );
 		GAnalytics.trackScreen( "90363841" );
-		GAnalytics.trackEvent("level1", "action", "starting", 1);
+		GAnalytics.trackEvent(Std.string(Reg.level), "action", "starting", 1);
 		//ad.show();
 		map = new FlxTilemap();
 		map.allowCollisions = FlxObject.ANY;
@@ -81,28 +82,26 @@ class PlayState extends FlxState
 		enemyKilled=0;
 		achivement=0;
 		increment=0;
+		maximumScore=100;//just in case
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
-//	_UINT_switchGreen=map.getTile(9, 5);
-//	_UINT_switchBlue=map.getTile(8, 5);
-//	_UINT_switchRed	=map.getTile(7, 5);
-//	_UINT_boxGreen	=map.getTile(11,8);
-//	_UINT_boxBlue	=map.getTile(8, 8);
-//	_boxRed	=map.getTile(6, 8); //get red questionmarkbox
-//	map.setTileProperties(_boxRed, FlxObject.NONE); //make all of them collision-off FOR DEBUG
-//	map.setTileProperties(_UINT_boxGreen, FlxObject.ANY); //make all of them collision-on
-//	map.setTileProperties(_UINT_boxBlue, FlxObject.ANY); //make all of them collision-on
-	
-	
-	
 
-		_tutorial = true;
-		_restart = false;
-		
-		add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
+if(Reg.level>0){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
+	_tutorial=false;
+	
+	//TODO add csv and Tilemaps of other Levels here(maybe a var:Int in filename string(ugly -.-)
+}
+else{
+	_tutorial = true;
+	add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
 		background.scrollFactor.x = background.scrollFactor.y = .5;
 		
-		add(map.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1.csv"), "assets/art/simples_pimples.png", 16, 16));
-		add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
+	add(map.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map1.csv"), "assets/art/simples_pimples.png", 16, 16));
+	add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
+		
+	}
+		
+		_restart = false;
+		
 		
 		virtualPad2 = new FlxVirtualPad(FULL, A_B);
 		virtualPad2.setAll("alpha", 0.5);
@@ -130,22 +129,41 @@ class PlayState extends FlxState
 		FlxG.camera.follow(player); 
 		FlxG.camera.style = FlxCamera.STYLE_SCREEN_BY_SCREEN;
 		
-		// Set up the enemies here
-		_enemies = new FlxGroup();
-		placeMonsters(Assets.getText("assets/data/lurkcoords.csv"), Lurker);
 		
-		_coins = new FlxGroup();
-		placeCoins(Assets.getText("assets/data/coins.csv"), Coin);
+		if(Reg.level==0){
+			// Set up the enemies here
+			_enemies = new FlxGroup();
+			placeMonsters(Assets.getText("assets/data/lurkcoords.csv"), Lurker);
 		
-		_coinsRed = new FlxGroup();
-		//placeCoinsRed(Assets.getText("assets/data/coinsred.csv"), CoinRed);
-		_coinsBlue = new FlxGroup();
-		placeCoinsRed(Assets.getText("assets/data/coinsblue.csv"), CoinBlue);
-		_coinsGreen = new FlxGroup();
-		placeCoinsRed(Assets.getText("assets/data/coinsgreen.csv"), CoinGreen);
-	
-		_coinsRed.add(new CoinRed((16*25), (16*8))); 
+			_coins = new FlxGroup();
+			placeCoins(Assets.getText("assets/data/coins.csv"), Coin);
 			
+			_coinsRed = new FlxGroup();
+			_coinsBlue = new FlxGroup();
+			placeCoinsRed(Assets.getText("assets/data/coinsblue.csv"), CoinBlue);
+			_coinsGreen = new FlxGroup();
+			placeCoinsRed(Assets.getText("assets/data/coinsgreen.csv"), CoinGreen);
+	
+			_coinsRed.add(new CoinRed((16*25), (16*8))); 
+			maximumScore=25;
+		}	
+		else{
+			// Set up the enemies here
+			_enemies = new FlxGroup();
+			placeMonsters(Assets.getText("assets/data/lurkcoords.csv"), Lurker);
+		
+			_coins = new FlxGroup();
+			placeCoins(Assets.getText("assets/data/coins.csv"), Coin);
+			
+			_coinsRed = new FlxGroup();
+			_coinsBlue = new FlxGroup();
+			placeCoinsRed(Assets.getText("assets/data/coinsblue.csv"), CoinBlue);
+			_coinsGreen = new FlxGroup();
+			placeCoinsRed(Assets.getText("assets/data/coinsgreen.csv"), CoinGreen);
+	
+			_coinsRed.add(new CoinRed((16*25), (16*8))); 
+		
+		}
 		add(_coinsGreen);
 		add(_coinsBlue);
 		add(_coinsRed);
@@ -153,9 +171,7 @@ class PlayState extends FlxState
 		add(_coins);
 		add(_enemies);
 		
-		Reg.score = 0;
-		Reg.silverKeys =9;
-		Reg.goldKeys = 9;
+		Reg.score = 0; //TODO different score for each level?
 		
 		super.create();
 		
@@ -219,6 +235,7 @@ class PlayState extends FlxState
       trace("Signed in");
 	   _debug.text='dbg:signed gpg in';
     }
+	_debug.text=_debug.text+" play level "+Std.string(Reg.level);
 		}
 	
 	override public function update():Void 
@@ -228,12 +245,12 @@ class PlayState extends FlxState
 		FlxG.collide(_gibs, map);
 		FlxG.collide(_bullets, map);
 		FlxG.collide(_badbullets, map);
-		//FlxG.collide(player, 852, collectCoinRed);
+		//FlxG.collide(player, 852, collectCoinRed); //TODO add fire collisions (need tilemapnumber for fire green, red, blue in all tilemapfiles)
 		
 		super.update();
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
-		_score.text = '$' + Std.string(Reg.score) + '/100';
+		_score.text = '$' + Std.string(Reg.score) + '/' + Std.string(maximumScore);
 		
 		
 		if (_tutorial)
@@ -244,7 +261,7 @@ class PlayState extends FlxState
 				FlxG.camera.flash(0xff000000, 1);
 				black=true;
 				trace("black");
-				GAnalytics.trackEvent("level1", "action", "tutorial black display", 1);
+				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial black display", 1);
 				_text2.visible = true;
 			}
 			
@@ -257,7 +274,7 @@ class PlayState extends FlxState
 			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
 				//ad.show();
-				GAnalytics.trackEvent("level1", "action", "tutorial button", 1);
+				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial button", 1);
 				_text2.visible=false;
 				_tutorial=false;
 				
@@ -273,13 +290,13 @@ class PlayState extends FlxState
 			_text1.visible = true;
 			//ad.hide();
 			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
-			GAnalytics.trackEvent("level1", "action", "player died", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "player died", 1);
 				
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
 				//ad.show();
-				GAnalytics.trackEvent("level1", "action", "another try(pressed A Button)", 1);
+				GAnalytics.trackEvent(Std.string(Reg.level), "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}
 		}
@@ -302,21 +319,21 @@ class PlayState extends FlxState
 	private function collectCoin(P:FlxObject, C:FlxObject):Void 
 	{
 		C.kill();
-		GAnalytics.trackEvent("level1", "action", "Collected a coin", 1);
+		GAnalytics.trackEvent(Std.string(Reg.level), "action", "Collected a coin", 1);
 		googlePlay.games.incrementAchievement(ACHIEVEMENT_ID_INC, 1);
 		if(Reg.score == 1) {
 		googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQAQ");
 		}//if(Reg.score > 89)
-		if(Reg.score == 20)
+		if(Reg.score == (maximumScore-5))
 		
 		{
 			//disable ADs maybe they hide the last 10 coin else
-			GAnalytics.trackEvent("level1", "action", "Collected 20 coin", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Collected maximumScore -5 coin", 1);
 			//ad.hide();
 		}
-		if(Reg.score > 24)
+		if(Reg.score > maximumScore)
 		{
-			GAnalytics.trackEvent("level1", "action", "Collected 25 coin", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Collected maximumScore coin", 1);
 			if(enemyHurted<1){googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBw");}
 			if(enemyKilled<1){googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBg");}
 			
@@ -336,7 +353,7 @@ class PlayState extends FlxState
 	{
 	//	if(Reg.red > 0)
 			C.kill();
-			GAnalytics.trackEvent("level1", "unlock", "red box", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "unlock", "red box", 1);
 			map.setTileProperties(902, FlxObject.NONE);
 			_debug.text='dbg: Red Box Unlocked';
 		
@@ -345,7 +362,7 @@ class PlayState extends FlxState
 	private function collectCoinBlue(P:FlxObject, C:FlxObject):Void 
 	{
 			C.kill();
-			GAnalytics.trackEvent("level1", "unlock", "blue box", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "unlock", "blue box", 1);
 			map.setTileProperties(905, FlxObject.NONE);
 			_debug.text='dbg: BoxBlue Unlocked';
 		
@@ -354,7 +371,7 @@ class PlayState extends FlxState
 	private function collectCoinGreen(P:FlxObject, C:FlxObject):Void 
 	{
 			C.kill();
-			GAnalytics.trackEvent("level1", "unlock", "green box", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "unlock", "green box", 1);
 			map.setTileProperties(906, FlxObject.NONE);
 			_debug.text='dbg: Green Box Unlocked';
 	}	
@@ -367,10 +384,10 @@ class PlayState extends FlxState
 	{
 		if (Std.is(Monster, Bullet))
 		{
-			GAnalytics.trackEvent("level1", "action", "Monster killed", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Monster killed", 1);
 			googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBA");
 			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQBQ", 1);
-			GAnalytics.trackEvent("level1", "action", "Monster killed tracked", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Monster killed tracked", 1);
 			Monster.kill();
 			enemyKilled++;
 			trace(["HitPlayer",enemyHurted,enemyKilled]);
@@ -379,7 +396,7 @@ class PlayState extends FlxState
 		
 		if (Monster.health > 0)
 		{
-			GAnalytics.trackEvent("level1", "action", "Monster hurtingPlayer", 1);
+			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Monster hurtingPlayer", 1);
 			// This should still be more interesting
 			P.hurt(1);
 			trace(["HitPlayer",enemyHurted,enemyKilled]);			

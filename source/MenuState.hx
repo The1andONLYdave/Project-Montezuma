@@ -25,6 +25,7 @@ class MenuState extends FlxState
 	private var _text3:FlxText;
 	private var _text4:FlxText;
 	private var _text5:FlxText;  
+	private var _text6:FlxText;  
 	
 	private var _pointer:FlxSprite;
 	
@@ -72,15 +73,17 @@ add(virtualPad);
 		add(_text2);
 		
 		// Set up the menu options
-		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play Level");
-		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Give us Feedback");
-		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
-		_text3.color = _text4.color = _text5.color = 0xAA00A2E8;
-		_text3.size = _text4.size = _text5.size = 8;
-		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
+		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play 1. Level");
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Play  "+Std.string(Reg.level+2)+".Level ")); //TODO do this work or need merge string as one before?
+		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Give us Feedback");
+		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
+		_text3.color = _text4.color = _text5.color = _text6.color = 0xAA00A2E8;
+		_text3.size = _text4.size = _text5.size = _text6.size =  8;
+		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = _text6.antialiasing = true;
 		add(_text3);
 		add(_text4);
 		add(_text5);
+		add(_text6);
 		
 		_pointer = new FlxSprite();
 		_pointer.loadGraphic("assets/art/pointer.png");
@@ -120,16 +123,14 @@ add(virtualPad);
 				_pointer.y = _text4.y;
 			case 2:
 				_pointer.y = _text5.y;
+			case 3:
+				_pointer.y = _text5.y;
 		}
-		_up = FlxG.keys.anyPressed(["UP", "W"]);
-		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
-		_left = FlxG.keys.anyPressed(["LEFT", "A"]);
-		_right = FlxG.keys.anyPressed(["RIGHT", "D"]);	
-		_up = _up || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED;
-		_down = _down || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED;
-		_left  = _left || MenuState.virtualPad.buttonLeft.status == FlxButton.PRESSED;
-		_right = _right || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED;
-
+		_up = FlxG.keys.anyPressed(["UP", "W"]) || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED;
+		_down = FlxG.keys.anyPressed(["DOWN", "S"]) || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED;
+		_left = FlxG.keys.anyPressed(["LEFT", "A"])  || MenuState.virtualPad.buttonLeft.status == FlxButton.PRESSED;
+		_right = FlxG.keys.anyPressed(["RIGHT", "D"]) || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED;	
+		
 		
 		if ((MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED) && moveIt== false)
 		{
@@ -139,7 +140,7 @@ add(virtualPad);
 			moveIt=true;
 		}
 		if ((MenuState.virtualPad.buttonUp.status == FlxButton.NORMAL)&& (MenuState.virtualPad.buttonDown.status == FlxButton.NORMAL)){
-        moveIt = false;
+			moveIt = false; //when button != pressed != move pointer, a fix for too fast pointer on android
 		}
 		
 		if ((FlxG.keys.justPressed.DOWN || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED)&& moveIt== false)
@@ -148,20 +149,23 @@ add(virtualPad);
 			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
 			moveIt=true;
 		}
+
 		
-		if (FlxG.keys.justPressed.RIGHT || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED)
+		if (FlxG.keys.justPressed.ENTER || MenuState.virtualPad.buttonA.status == FlxButton.PRESSED)
 		{
 			switch (_option) 
 			{
 				case 0:
+					Reg.level = 0;
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
-					//#if mobile
-					//virtualPad = FlxDestroyUtil.destroy(virtualPad);	
-					//#end
 				case 1:
-					FlxG.openURL("http://kulsch-it.de/#contact");
+					Reg.level++;
+					FlxG.cameras.fade(0xff969867, 1, false, startGame);
+					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 2:
+					FlxG.openURL("http://kulsch-it.de/#contact");
+				case 3:
 					FlxG.openURL("http://flixel.org");
 			}
 		}
