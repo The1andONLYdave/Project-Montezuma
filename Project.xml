@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.0.9" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
+	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.1.0" company="DLK appentwicklung" package="com.dlka.projectmontezuma"/>
 	
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
