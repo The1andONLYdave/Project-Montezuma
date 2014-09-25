@@ -98,7 +98,7 @@ else{
 		
 }
 	
-add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group1_Map"+Std.string(Reg.level)+"back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
+add(background.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.level)+"_Map1back.csv"), "assets/art/simples_pimples.png", 16, 16, FlxTilemap.OFF));
 	background.scrollFactor.x = background.scrollFactor.y = .5;	
 add(map.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.level)+"_Map1.csv"), "assets/art/simples_pimples.png", 16, 16));
 add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.level)+"_Ladders.csv"), "assets/art/simples_pimples.png", 16, 16));
@@ -143,6 +143,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 			_coinsRed = new FlxGroup();
 			placeCoinsRed(Assets.getText("assets/data/"+Std.string(Reg.level)+"coinsred.csv"), CoinRed);
+			trace("Pathdata: assets/data/"+Std.string(Reg.level)+"coinsred.csv");
 			_coinsBlue = new FlxGroup();
 			placeCoinsRed(Assets.getText("assets/data/"+Std.string(Reg.level)+"coinsblue.csv"), CoinBlue);
 			_coinsGreen = new FlxGroup();
