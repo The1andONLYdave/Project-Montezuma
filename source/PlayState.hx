@@ -285,6 +285,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 				FlxG.sound.music.stop();
 				
 				FlxG.sound.playMusic("assets/music/GameOver.ogg");
+				trace("playing music");
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "player died", 1);
 			}
