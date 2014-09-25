@@ -74,9 +74,9 @@ add(virtualPad);
 		
 		// Set up the menu options
 		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play 1. Level");
-		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Play  "+Std.string(Reg.level+2)+".Level ")); //TODO do this work or need merge string as one before?
-		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Give us Feedback");
-		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Visit flixel.org");
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Play  "+Std.string(Reg.level+1)+".Level ")); //TODO do this work or need merge string as one before?
+		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Feedback (Email)");
+		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 40, 150, "Visit flixel.org");
 		_text3.color = _text4.color = _text5.color = _text6.color = 0xAA00A2E8;
 		_text3.size = _text4.size = _text5.size = _text6.size =  8;
 		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = _text6.antialiasing = true;
@@ -156,7 +156,8 @@ add(virtualPad);
 			switch (_option) 
 			{
 				case 0:
-					Reg.level = 0;
+					Reg.level = 1;
+					Reg.score = 0; //TODO different score for each level?		
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 1:
