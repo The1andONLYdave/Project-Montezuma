@@ -264,8 +264,9 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			{
 				//ad.show();
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial button", 1);
-				_score.visible = true;
 				_debug.visible=true;
+				_score.visible = true;
+
 				_text2.visible = false;
 				
 				
@@ -280,7 +281,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		{
 			if(_text1.visible==false){ //hacking for dirty check if called 1.time, else we slow down the game heavy because we try every frame to pause and play ogg file
 				//FlxG.sound.kill();
-				FlxG.sound.music.fadeOut();
+				//FlxG.sound.music.fadeOut();
 				
 				FlxG.sound.music.stop();
 				
@@ -298,7 +299,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				//ad.show();
+				FlxG.sound.music.stop();//ad.show();
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}

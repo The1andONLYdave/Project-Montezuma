@@ -76,7 +76,7 @@ add(virtualPad);
 	{
 	
 		// Stop the texts when they reach their designated position
-		if (_text1.x > FlxG.width / 5)	
+		if (_text1.x > FlxG.width / 10)	
 		{
 			_text1.velocity.x = 0;
 		}
