@@ -70,6 +70,7 @@ add(virtualPad);
 		super.create();
 		FlxG.sound.playMusic("assets/music/VictoryTheme(Faded).ogg");
 		
+		Reg.level++;
 	}
 	override public function update():Void 
 	{
@@ -88,7 +89,6 @@ add(virtualPad);
 		
 		if (WinningState.virtualPad.buttonA.status == FlxButton.PRESSED)
 		{
-			Reg.level++;//next Level
 			FlxG.cameras.fade(0xff969867, 1, false, startGame);
 			FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 		}

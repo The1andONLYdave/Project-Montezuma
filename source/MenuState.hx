@@ -74,7 +74,7 @@ add(virtualPad);
 		
 		// Set up the menu options
 		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play 1. Level");
-		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Play  "+Std.string(Reg.level+1)+".Level ")); //TODO do this work or need merge string as one before?
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Begin at the "+Std.string(Reg.level+1)+".Level ")); //TODO do this work or need merge string as one before?
 		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Feedback (Email)");
 		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 40, 150, "Visit flixel.org");
 		_text3.color = _text4.color = _text5.color = _text6.color = 0xAA00A2E8;
@@ -162,6 +162,7 @@ add(virtualPad);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 1:
 					Reg.level++;
+					Reg.score +=25;//for adding 25 for each level, because we need more coins to win
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 2:

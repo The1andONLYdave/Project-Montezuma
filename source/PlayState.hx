@@ -89,7 +89,7 @@ if(Reg.level>Reg.maxLevel){
 	Reg.level=Reg.maxLevel;
 }
 
-if(Reg.level>0){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
+if(Reg.level>1){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
 	_tutorial=false;
 }
 else{
@@ -133,7 +133,6 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		FlxG.camera.style = FlxCamera.STYLE_SCREEN_BY_SCREEN;
 		
 		
-		if(Reg.level==0){
 			// Set up the enemies here
 			_enemies = new FlxGroup();
 			placeMonsters(Assets.getText("assets/data/"+Std.string(Reg.level)+"lurkcoords.csv"), Lurker);
@@ -151,7 +150,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 	
 		//	_coinsRed.add(new CoinRed((16*25), (16*8))); 
 			maximumScore=25;
-		}	
+		
 		
 		add(_coinsGreen);
 		add(_coinsBlue);
@@ -280,7 +279,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
 			GAnalytics.trackEvent(Std.string(Reg.level), "action", "player died", 1);
 			//play gameover.ogg	
-			FlxG.sound.music.stop();//stopgamemusic
+			//FlxG.sound.music.stop();//stopgamemusic
 			FlxG.sound.playMusic("assets/music/GameOver.ogg");
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
