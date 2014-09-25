@@ -196,8 +196,8 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		add(_text1); 
 
 		// Set up the tutorial text
-		_text2 = new FlxText(0, 30, FlxG.width, "Official Developer Preview \n \n Press A - Jump \n Press B - Shoot \n Collect Color-Coins to unlock ?-Box in same color \n  Collect 25 Coin to win \n \n \n Press A to Start Playing! Have Fun");
-		_text2.setFormat(null, 10, FlxColor.GREEN, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
+		_text2 = new FlxText(0, 10, FlxG.width, "(Discard this screen with A-Button)\n Thank you for playing! \n \n A - Jump \n B - Shoot \n Collect Red, Blue and Green-Coins to unlock ?-Boxes of same color \n  Collect 25 Coin to next level \n Need help? Collect the blue coin next to you\n and go down to rope in middle\n \n Press A to Start Playing! Have Fun");
+		_text2.setFormat(null, 10, FlxColor.YELLOW, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text2.visible = false;
 		_text2.antialiasing = true;
 		_text2.scrollFactor.set(0, 0);
@@ -249,6 +249,8 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 				black=true;
 				trace("black");
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial black display", 1);
+				_score.visible = false;
+				_debug.visible=false;
 				_text2.visible = true;
 			}
 			
@@ -262,20 +264,26 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			{
 				//ad.show();
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial button", 1);
-				_text2.visible=false;
-				_tutorial=false;
+				_score.visible = true;
+				_debug.visible=true;
+				_text2.visible = false;
+				
 				
 				googlePlay.games.unlockAchievement(ACHIEVEMENT_ID);
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCA", 1);
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQCQ", 1);
-				
+				_tutorial=false;
 			}
 		}
 		
 		if (!player.alive)
 		{
 			if(_text1.visible=false){ //hacking for dirty check if called 1.time, else we slow down the game heavy because we try every frame to pause and play ogg file
-				FlxG.sound.pause();
+				//FlxG.sound.kill();
+				FlxG.sound.music.fadeOut();
+				
+				FlxG.sound.music.stop();
+				
 				FlxG.sound.playMusic("assets/music/GameOver.ogg");
 			}
 			_text1.visible = true;
