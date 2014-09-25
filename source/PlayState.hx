@@ -274,13 +274,17 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		
 		if (!player.alive)
 		{
+			if(_text1.visible=false){ //hacking for dirty check if called 1.time, else we slow down the game heavy because we try every frame to pause and play ogg file
+				FlxG.sound.pause();
+				FlxG.sound.playMusic("assets/music/GameOver.ogg");
+			}
 			_text1.visible = true;
 			//ad.hide();
 			googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
 			GAnalytics.trackEvent(Std.string(Reg.level), "action", "player died", 1);
 			//play gameover.ogg	
 			//FlxG.sound.music.stop();//stopgamemusic
-			FlxG.sound.playMusic("assets/music/GameOver.ogg");
+			
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
