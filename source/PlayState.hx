@@ -1,5 +1,8 @@
 package;
 
+
+import flixel.addons.effects.FlxTrail2;
+
 import flixel.effects.particles.FlxEmitter;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -53,6 +56,7 @@ class PlayState extends FlxState
 	private var _coinsBlue:FlxGroup;
 	private var _score:FlxText;
 	private var _debug:FlxText;
+	private var _pos:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
 	private var black:Bool=false;
 	private var increment:Int;
@@ -91,6 +95,8 @@ if(Reg.level>Reg.maxLevel){
 
 if(Reg.level>1){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
 	_tutorial=false;
+	Reg.score = 0; //TODO different score for each level?
+	
 }
 else{
 	_tutorial = true;
@@ -126,7 +132,10 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		_badbullets = new FlxGroup();
 		 
 		//
+
 		add(player = new Player(400, 50, this, _gibs, _bullets));
+		var trail:FlxTrail = new FlxTrail(player);
+		add(trail);//TODO Trail working?
 		
 		// Attach the camera to the player. The number is how much to lag the camera to smooth things out
 		FlxG.camera.follow(player); 
@@ -184,6 +193,12 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		_debug.setFormat(null, 10, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
 		_debug.scrollFactor.set(0, 0);
 		add(_debug);
+		
+		_pos = new FlxText(0, (FlxG.height-20), FlxG.width);
+		_pos.setFormat(null, 5, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
+		_pos.scrollFactor.set(0, 0);
+		add(_pos);
+		
 
 		
 		// Set up the game over text
@@ -206,7 +221,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 
 		FlxG.sound.playMusic("assets/music/ScrollingSpace"+Std.string(Reg.level)+".ogg",true);
 		_debug.text='dbg: '+map.getTile(6, 8);
-		
+		_pos.text="x: \ny:";
 			
     googlePlay = new GooglePlay(new GooglePlayHandler());
    
@@ -238,7 +253,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		_score.text = '$' + Std.string(Reg.score) + '/' + Std.string(maximumScore*Reg.level);
-		
+		_pos.text="x: "+Std.string(player.x)+"\ny:"+Std.string(player.y);
 		
 		if (_tutorial)
 		{
@@ -328,14 +343,14 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		if(Reg.score == 1) {
 		googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQAQ");
 		}//if(Reg.score > 89)
-		if(Reg.score == ((maximumScore*Reg.level)-5))
+		if(Reg.score == ((maximumScore-5)))//*Reg.level)-5))
 		
 		{
 			//disable ADs maybe they hide the last 10 coin else
 			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Collected maximumScore -5 coin", 1);
 			//ad.hide();
 		}
-		if(Reg.score >= (maximumScore*Reg.level))
+		if(Reg.score >= (maximumScore))//*Reg.level))
 		{
 			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Collected maximumScore coin", 1);
 			if(enemyHurted<1){googlePlay.games.unlockAchievement("CgkI5-a8jM8FEAIQBw");}

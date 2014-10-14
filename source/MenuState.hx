@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
+//import flixel.util.FlxDestroyUtil
 //import extension.share.Share;
 
 /**
@@ -73,10 +74,11 @@ add(virtualPad);
 		add(_text2);
 		
 		// Set up the menu options
-		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play 1. Level");
-		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Begin at the "+Std.string(Reg.level+1)+".Level ")); //TODO do this work or need merge string as one before?
+		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play 1. Level(tutorial)");
+		//_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, ("Begin at the "+Std.string(Reg.level+1)+".Level ")); //TODO do this work or need merge string as one before?
+		_text4 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 20, 150, "Play 2. Level"); //TODO do this work or need merge string as one before?
 		_text5 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 30, 150, "Feedback (Email)");
-		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 40, 150, "Visit flixel.org");
+		_text6 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3 + 40, 150, "View Map Level 2 (Browser)");
 		_text3.color = _text4.color = _text5.color = _text6.color = 0xAA00A2E8;
 		_text3.size = _text4.size = _text5.size = _text6.size =  8;
 		_text3.antialiasing = _text4.antialiasing = _text5.antialiasing = _text6.antialiasing = true;
@@ -156,19 +158,22 @@ add(virtualPad);
 			switch (_option) 
 			{
 				case 0:
+					//FlxDestroyUtil.destroy(virtualPad);
 					Reg.level = 1;
 					Reg.score = 0; //TODO different score for each level?		
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 1:
-					Reg.level++;
-					Reg.score +=25;//for adding 25 for each level, because we need more coins to win
+					//FlxDestroyUtil.destroy(virtualPad);
+					Reg.level=2;
+					//Reg.score +=25;//for adding 25 for each level, because we need more coins to win
+					Reg.score =0;//for adding 25 for each level, because we need more coins to win
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
-					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
+					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);	
 				case 2:
 					FlxG.openURL("http://kulsch-it.de/#contact");
 				case 3:
-					FlxG.openURL("http://flixel.org");
+					FlxG.openURL("http://app-liste.de/other/Overview-level2.png");
 			}
 		}
 		
@@ -177,6 +182,7 @@ add(virtualPad);
 	
 	private function startGame():Void
 	{
+		
 		FlxG.switchState(new PlayState());
 	}
 	// function shareStuff(){

@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.1.0" company="DLK appentwicklung" package="com.dlka.projectmontezumadonate"/>
+	<app title="Montezumas Tower 8bit" file="Montezumas Tower 8bit" main="Main" version="0.1.1" company="DLK appentwicklung" package="com.dlka.projectmontezumadonate"/>
 	
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
@@ -26,7 +26,7 @@
 	<!--<haxelib name="openfl-share"/>-->
 	
 	<!--In case you want to use the ui package-->
-	<!--haxelib name="flixel-ui"/-->
+	<haxelib name="flixel-addons"/>
 	
 <!--	<haxelib name="admob" />-->
 	<haxelib name="ganalytics" if="android"/>
