@@ -21,12 +21,12 @@ class Reg
 	 * Example usage: Storing the current level number.
 	 */
 	public static var level:Int =1;
-	public static var maxLevel:Int =2;//1=tutorial, 2=normal level
+	public static var maxLevel:Int =3;//1=tutorial, 2=normal level
 	/**
 	 * Generic scores Array that can be used for cross-state stuff.
 	 * Example usage: Storing the scores for level.
 	 */
-	public static var scores:Array<Dynamic> = [];
+	public static var maximumScore:Array<Int> = [0,36,42,100];//level 0 dont exist
 	/**
 	 * Generic score variable that can be used for cross-state stuff.
 	 * Example usage: Storing the current score.
@@ -37,6 +37,12 @@ class Reg
 	 * Especially useful for setting up multiple save slots.
 	 */
 	public static var saves:Array<FlxSave> = [];
+	public static var live:Int=5;
+	public static var debug:Bool=false;
+	public static var moreHealth=false;
+	public static var sound=true;
+	public static var music=true;
+	
 	/**
 	 * Generic container for a <code>FlxSave</code>. You might want to 
 	 * consider assigning <code>FlxG.game._prefsSave</code> to this in

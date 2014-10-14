@@ -56,6 +56,7 @@ class PlayState extends FlxState
 	private var _coinsBlue:FlxGroup;
 	private var _score:FlxText;
 	private var _debug:FlxText;
+	private var _health:FlxText;
 	private var _pos:FlxText;
 	public static var virtualPad2:FlxVirtualPad;
 	private var black:Bool=false;
@@ -91,22 +92,24 @@ class PlayState extends FlxState
 		increment=0;
 		maximumScore=100;//just in case
 		FlxG.mouse.visible = false;
+		Reg.live=5;
+		if(Reg.moreHealth==true){Reg.live=80;}
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
 
 if(Reg.level>Reg.maxLevel){
+	trace("level not existing yet");
 	Reg.level=Reg.maxLevel;
 }
 
 if(Reg.level>1){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
 	_tutorial=false;
 	Reg.score = 0; //TODO different score for each level?
-	maximumScore=25;
-	
+	maximumScore=Reg.maximumScore[Reg.level];
 }
 else{
 	_tutorial = true;
 	Reg.score = 0; //TODO different score for each level?
-	maximumScore=36;
+	maximumScore=Reg.maximumScore[Reg.level];
 		
 }
 	
@@ -197,20 +200,28 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		
 		// HUD - score
 		_score = new FlxText(0, 0, FlxG.width);
-		_score.setFormat(null, 16, FlxColor.YELLOW, "center", FlxText.BORDER_OUTLINE, 0x131c1b);
+		_score.setFormat(null, 10, FlxColor.YELLOW, "center", FlxText.BORDER_OUTLINE, 0x131c1b);
 		_score.scrollFactor.set(0, 0);
 		add(_score);
 
-		_debug = new FlxText(0, 0, FlxG.width);
+		_debug = new FlxText(0, 20, FlxG.width);
 		_debug.setFormat(null, 10, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
 		_debug.scrollFactor.set(0, 0);
 		add(_debug);
+		_debug.visible=false;
+		
+		_health = new FlxText(0, 0, FlxG.width);
+		_health.setFormat(null, 10, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
+		_health.scrollFactor.set(0, 0);
+		add(_health);
 		
 		_pos = new FlxText(0, (FlxG.height-20), FlxG.width);
 		_pos.setFormat(null, 5, FlxColor.GREEN, "left", FlxText.BORDER_OUTLINE, 0x131c1b);
-		_pos.scrollFactor.set(0, 0);
-		add(_pos);
-		
+			
+		if(Reg.debug==true){
+			_pos.scrollFactor.set(0, 0);
+			add(_pos);
+		}
 
 		
 		// Set up the game over text
@@ -231,10 +242,11 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		// Add last so it goes on top, you know the drill.
 		add(_text2); 
 
-		FlxG.sound.playMusic("assets/music/ScrollingSpace"+Std.string(Reg.level)+".ogg",true);
+		if(Reg.music==true){FlxG.sound.playMusic("assets/music/ScrollingSpace"+Std.string(Reg.level)+".ogg",true);}
 		_debug.text='dbg: '+map.getTile(6, 8);
 		_pos.text="x: \ny:";
-			
+		if(Reg.debug==true){_debug.visible;}
+		if(Reg.debug==false){_health.visible;}
     googlePlay = new GooglePlay(new GooglePlayHandler());
    
 	 if(!googlePlay.games.isSignedIn())
@@ -266,6 +278,8 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
 		_score.text = '$' + Std.string(Reg.score) + '/' + Std.string(maximumScore);
 		_pos.text="x: "+Std.string(player.x/16)+"\ny:"+Std.string(player.y/16);
+
+		_health.text=Reg.live+ " health";
 		
 		if (_tutorial)
 		{
@@ -277,7 +291,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 				trace("black");
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial black display", 1);
 				_score.visible = false;
-				_debug.visible=false;
+				if(Reg.debug==true)_debug.visible=false;
 				_text2.visible = true;
 			}
 			
@@ -291,7 +305,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			{
 				//ad.show();
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial button", 1);
-				_debug.visible=true;
+				if(Reg.debug==true)_debug.visible=true;
 				_score.visible = true;
 
 				_text2.visible = false;
@@ -310,9 +324,12 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 				//FlxG.sound.kill();
 				//FlxG.sound.music.fadeOut();
 				
-				FlxG.sound.music.stop();
 				
-				FlxG.sound.playMusic("assets/music/GameOver.ogg");
+				
+				if(Reg.music==true){
+					FlxG.sound.music.stop();
+					FlxG.sound.playMusic("assets/music/GameOver.ogg");
+					}
 				trace("playing music");
 				googlePlay.games.incrementAchievement("CgkI5-a8jM8FEAIQAw", 1);
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "player died", 1);
@@ -326,7 +343,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 			if (FlxG.keys.justPressed.R || PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
 			{
-				FlxG.sound.music.stop();//ad.show();
+				if(Reg.music==true){FlxG.sound.music.stop();}
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "another try(pressed A Button)", 1);
 				_restart = true;
 			}
@@ -428,7 +445,11 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		{
 			GAnalytics.trackEvent(Std.string(Reg.level), "action", "Monster hurtingPlayer", 1);
 			// This should still be more interesting
-			P.hurt(1);
+			Reg.live--;
+			if(Reg.live<=0){
+				Reg.live=0;
+				P.hurt(1);
+			}
 			trace(["HitPlayer",enemyHurted,enemyKilled]);			
 		}
 	}
@@ -465,7 +486,8 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 			if (Monster == Lurker)
 			{ 
-				_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player, _badbullets));
+				if(Reg.level!=3){_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player, _badbullets));}
+				else{_enemies.add(new Lurker(16*(Std.parseInt(coords[0])), (16*(Std.parseInt(coords[1]))), player, _badbullets));}
 			}
 		}
 	}

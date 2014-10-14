@@ -217,7 +217,7 @@ class Player extends FlxSprite
 		{
 			if ((velocity.y == 0) && (_timesJumped < 1)) // Only allow two jumps
 			{
-				FlxG.sound.play("assets/sounds/jump" + Reg.SoundExtension, 1, false);
+				if(Reg.sound==true){FlxG.sound.play("assets/sounds/jump" + Reg.SoundExtension, 1, false);}
 				_timesJumped++;
 				_jumpTime = 0;
 				_onLadder = false;
@@ -270,7 +270,7 @@ class Player extends FlxSprite
 				}
 				
 				_blt.shoot(bulletX, bulletY, bXVeloc, bYVeloc);
-				FlxG.sound.play("assets/sounds/shoot2" + Reg.SoundExtension, 1, false);
+				if(Reg.sound==true){FlxG.sound.play("assets/sounds/shoot2" + Reg.SoundExtension, 1, false);}
 				// reset the shot clock
 				_cooldown = 0; 
 			}
@@ -295,6 +295,6 @@ class Player extends FlxSprite
 			_gibs.start(true, 2.80);
 		}
 		
-		FlxG.sound.play("assets/sounds/death" + Reg.SoundExtension, 1, false);
+			if(Reg.sound==true){FlxG.sound.play("assets/sounds/death" + Reg.SoundExtension, 1, false);}
 	}
 }

@@ -61,14 +61,15 @@ add(virtualPad);
 		add(_text2);
 		
 		// Set up the menu options
-		_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play next Level with Button A");
+		if(Reg.level<Reg.maxLevel)_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Play next Level with Button A");
+		if(Reg.level>=Reg.maxLevel)_text3 = new FlxText(FlxG.width * 2 / 5, FlxG.height * 2 / 3, 150, "Game complete.");
 		_text3.color = 0xAA00A2E8;
 		_text3.size  = 8;
 		_text3.antialiasing =  true;
 		add(_text3);
 		
 		super.create();
-		FlxG.sound.playMusic("assets/music/VictoryTheme(Faded).ogg");
+		if(Reg.music==true){FlxG.sound.playMusic("assets/music/VictoryTheme(Faded).ogg");}
 		
 		Reg.level++;
 	}
@@ -90,13 +91,14 @@ add(virtualPad);
 		if (WinningState.virtualPad.buttonA.status == FlxButton.PRESSED)
 		{
 			FlxG.cameras.fade(0xff969867, 1, false, startGame);
-			FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
+			if(Reg.sound==true){FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);}
 		}
 
 		super.update();
 	}
 	private function startGame():Void
 	{
-		FlxG.switchState(new PlayState());
+	if(Reg.level>Reg.maxLevel){FlxG.switchState(new MenuState());} //TODO:HighscoreState
+	else{FlxG.switchState(new PlayState());}
 	}
 }

@@ -9,16 +9,16 @@ import flixel.util.FlxSpriteUtil;
  * ...
  * @author David Bell
  */
-class Lurker extends EnemyTemplate 
+class LurkerBig extends EnemyTemplate 
 {
 	public static inline var RUN_SPEED:Int = 30;
 	public static inline var GRAVITY:Int = 300;
-	public static inline var HEALTH:Int = 2;
+	public static inline var HEALTH:Int = 3;
 	public static inline var SPAWNTIME:Float = 45;
-	public static inline var JUMP_SPEED:Int = 60;
+	public static inline var JUMP_SPEED:Int = 30;
 	public static inline var BURNTIME:Int = 5;
 	public static inline var GUN_DELAY:Int = 1;
-	public static inline var BULLET_SPEED:Int =100;
+	public static inline var BULLET_SPEED:Int =50;
 	
 	private var _spawntimer:Float;
 	private var _burntimer:Float;

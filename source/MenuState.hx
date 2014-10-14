@@ -102,7 +102,7 @@ add(virtualPad);
 		_option = 0;
 
 		super.create();
-		FlxG.sound.playMusic("assets/music/Menubackground.ogg");
+		if(Reg.music==true){FlxG.sound.playMusic("assets/music/Menubackground.ogg");}
 	}
 	
 	override public function update():Void 
@@ -112,7 +112,7 @@ add(virtualPad);
 	var _left:Bool = false;
 	var _right:Bool = false;
 
-		
+		if(Reg.music==false){FlxG.sound.music.stop();}
 		// Stop the texts when they reach their designated position
 		if (_text1.x > FlxG.width / 5)	
 		{
@@ -146,7 +146,7 @@ add(virtualPad);
 		{
 			// A goofy format, because % doesn't work on negative numbers
 			_option = (_option + OPTIONS - 1) % OPTIONS; 
-			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
+			if(Reg.sound==true){FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);}
 			moveIt=true;
 		}
 		if ((MenuState.virtualPad.buttonUp.status == FlxButton.NORMAL)&& (MenuState.virtualPad.buttonDown.status == FlxButton.NORMAL)){
@@ -156,7 +156,7 @@ add(virtualPad);
 		if ((FlxG.keys.justPressed.DOWN || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED)&& moveIt== false)
 		{
 			_option = (_option + OPTIONS + 1) % OPTIONS;
-			FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);
+			if(Reg.sound==true){FlxG.sound.play("assets/sounds/menu" + Reg.SoundExtension, 1, false);}
 			moveIt=true;
 		}
 
@@ -170,13 +170,13 @@ add(virtualPad);
 					Reg.level = 1;
 					Reg.score = 0; //TODO different score for each level?		
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
-					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
+					if(Reg.sound==true){FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);}
 				case 1:
 					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "level 2", 1);
 					Reg.level=2;
 					Reg.score =0;//for adding 25 for each level, because we need more coins to win
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
-					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);	
+					if(Reg.sound==true){FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);}
 				case 2:
 					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "contactformular", 1);
 					FlxG.openURL("http://kulsch-it.de/#contact");

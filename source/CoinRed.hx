@@ -25,7 +25,7 @@ class CoinRed extends FlxSprite
 	{
 		super.kill();
 		
-		FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 3, false);
+		if(Reg.sound==true){FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 3, false);}
 		//Reg.score++;
 	}
 }

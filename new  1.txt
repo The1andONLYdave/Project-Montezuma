@@ -1,0 +1,18 @@
+
+1=36
+2=35
+
+menu:
+
+option
+level 1
+level 2
+feedback	enableDebug
+view map	menuDebug
+
+
+levelPlay1
+levelPlay2
+mailFeedback
+viewMap
+optionMenu
