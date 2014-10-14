@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxVirtualPad;
+import GAnalytics;
 //import flixel.util.FlxDestroyUtil
 //import extension.share.Share;
 
@@ -17,7 +18,7 @@ import flixel.ui.FlxVirtualPad;
 class MenuState extends FlxState 
 {
 	// How many menu options there are.
-	public static inline var OPTIONS:Int = 3;
+	public static inline var OPTIONS:Int = 4;
 	public static inline var TEXT_SPEED:Float = 600;
 	
 	// Augh, so many text objects. I should make arrays.
@@ -35,14 +36,21 @@ class MenuState extends FlxState
 	
 	private var moveIt:Bool = false;
 	
+		public var DemoButton1:FlxButton;
+		
+	
 public static var virtualPad:FlxVirtualPad;
 	
 
 	
 	override public function create():Void 
 	{
-		
-
+		GAnalytics.startSession( "UA-47310419-7" );
+		GAnalytics.trackScreen( "90363841" );
+		GAnalytics.trackEvent("Montezuma Mainmenu", "action", "starting", 1);
+	
+	DemoButton1 =  new FlxButton((FlxG.width)-80 , 10, "Option", OptionMenu);
+		add(DemoButton1);
 
 virtualPad = new FlxVirtualPad(UP_DOWN, A);
 add(virtualPad);
@@ -89,7 +97,7 @@ add(virtualPad);
 		
 		_pointer = new FlxSprite();
 		_pointer.loadGraphic("assets/art/pointer.png");
-		_pointer.x = _text3.x - _pointer.width - 10;
+		_pointer.x = _text3.x - _pointer.width;
 		add(_pointer);
 		_option = 0;
 
@@ -126,7 +134,7 @@ add(virtualPad);
 			case 2:
 				_pointer.y = _text5.y;
 			case 3:
-				_pointer.y = _text5.y;
+				_pointer.y = _text6.y;
 		}
 		_up = FlxG.keys.anyPressed(["UP", "W"]) || MenuState.virtualPad.buttonUp.status == FlxButton.PRESSED;
 		_down = FlxG.keys.anyPressed(["DOWN", "S"]) || MenuState.virtualPad.buttonDown.status == FlxButton.PRESSED;
@@ -158,21 +166,22 @@ add(virtualPad);
 			switch (_option) 
 			{
 				case 0:
-					//FlxDestroyUtil.destroy(virtualPad);
+					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "level 1", 1);
 					Reg.level = 1;
 					Reg.score = 0; //TODO different score for each level?		
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
 				case 1:
-					//FlxDestroyUtil.destroy(virtualPad);
+					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "level 2", 1);
 					Reg.level=2;
-					//Reg.score +=25;//for adding 25 for each level, because we need more coins to win
 					Reg.score =0;//for adding 25 for each level, because we need more coins to win
 					FlxG.cameras.fade(0xff969867, 1, false, startGame);
 					FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);	
 				case 2:
+					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "contactformular", 1);
 					FlxG.openURL("http://kulsch-it.de/#contact");
 				case 3:
+					GAnalytics.trackEvent("Montezuma Mainmenu", "run", "mapview", 1);
 					FlxG.openURL("http://app-liste.de/other/Overview-level2.png");
 			}
 		}
@@ -180,9 +189,15 @@ add(virtualPad);
 		super.update();
 	}
 	
-	private function startGame():Void
+	private function OptionMenu():Void
 	{
-		
+		trace("optionMenu");
+		GAnalytics.trackEvent("Montezuma Mainmenu", "run", "OptionMenu", 1);
+		FlxG.switchState(new SettingsState());
+	}
+	
+	private function startGame():Void
+	{	
 		FlxG.switchState(new PlayState());
 	}
 	// function shareStuff(){

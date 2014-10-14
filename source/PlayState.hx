@@ -70,6 +70,9 @@ class PlayState extends FlxState
 	private var enemyKilled:Int;
 	private var achivement:Int;
 	private var maximumScore:Int;
+	public var DemoButton1:FlxButton;
+	public var DemoButton2:FlxButton;
+	public var DemoButton3:FlxButton;
 	
 	override public function create():Void
 	{
@@ -87,6 +90,7 @@ class PlayState extends FlxState
 		achivement=0;
 		increment=0;
 		maximumScore=100;//just in case
+		FlxG.mouse.visible = false;
 	//TESTI(NG)Room in upper left should not be removed, only locked in, because we need it here to find the right UINT of var.Tiles
 
 if(Reg.level>Reg.maxLevel){
@@ -96,11 +100,13 @@ if(Reg.level>Reg.maxLevel){
 if(Reg.level>1){ //tutorial only on first level, TODO if we need more tutorials for next levels choose them here
 	_tutorial=false;
 	Reg.score = 0; //TODO different score for each level?
+	maximumScore=25;
 	
 }
 else{
 	_tutorial = true;
 	Reg.score = 0; //TODO different score for each level?
+	maximumScore=36;
 		
 }
 	
@@ -111,6 +117,12 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 		_restart = false;
 		
+		DemoButton1 =  new FlxButton((FlxG.width)-80 ,2, "Exit Level", backMenu);
+		add(DemoButton1);
+		DemoButton2 =  new FlxButton(((FlxG.width /4)*3 )-30, FlxG.height/2, "Play", backMenu);
+		//add(DemoButton2);
+		DemoButton3 =  new FlxButton(((FlxG.width /4)*1 )-30, FlxG.height/2, "Exit", backMenu);
+		//add(DemoButton3);
 		
 		virtualPad2 = new FlxVirtualPad(FULL, A_B);
 		virtualPad2.setAll("alpha", 0.5);
@@ -158,7 +170,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			placeCoinsRed(Assets.getText("assets/data/"+Std.string(Reg.level)+"coinsgreen.csv"), CoinGreen);
 	
 		//	_coinsRed.add(new CoinRed((16*25), (16*8))); 
-			maximumScore=25;
+			
 		
 		
 		add(_coinsGreen);
@@ -211,7 +223,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		add(_text1); 
 
 		// Set up the tutorial text
-		_text2 = new FlxText(0, 10, FlxG.width, "(Discard this screen with A-Button)\n Thank you for playing! \n \n A - Jump \n B - Shoot \n Collect Red, Blue and Green-Coins to unlock ?-Boxes of same color \n  Collect 25 Coin to next level \n Need help? Collect the blue coin next to you\n and go down to rope in middle\n \n Press A to Start Playing! Have Fun");
+		_text2 = new FlxText(0, 10, FlxG.width, "(Tap to hide)\n Thank you for playing! \n \n A - Jump \n B - Shoot \n Collect Red, Blue and Green-Coins to unlock ?-Boxes of same color \n  Collect "+Std.string(maximumScore)+" Coin to next level \n \n Touch anywhere to Start Playing! Have Fun");
 		_text2.setFormat(null, 10, FlxColor.YELLOW, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
 		_text2.visible = false;
 		_text2.antialiasing = true;
@@ -252,8 +264,8 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 		super.update();
 		
 		//_score.text = '$' + Std.string(Reg.score) + ' Silverkeys: ' + Std.string(Reg.silverKeys) + " Goldkeys: " + Std.string(Reg.goldKeys);
-		_score.text = '$' + Std.string(Reg.score) + '/' + Std.string(maximumScore*Reg.level);
-		_pos.text="x: "+Std.string(player.x)+"\ny:"+Std.string(player.y);
+		_score.text = '$' + Std.string(Reg.score) + '/' + Std.string(maximumScore);
+		_pos.text="x: "+Std.string(player.x/16)+"\ny:"+Std.string(player.y/16);
 		
 		if (_tutorial)
 		{
@@ -275,7 +287,7 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			
 			    
 	
-			if (PlayState.virtualPad2.buttonA.status == FlxButton.PRESSED) 
+			if (FlxG.mouse.justPressed) 
 			{
 				//ad.show();
 				GAnalytics.trackEvent(Std.string(Reg.level), "action", "tutorial button", 1);
@@ -500,6 +512,14 @@ add(ladders.loadMap(Assets.getText("assets/levels/mapCSV_Group"+Std.string(Reg.l
 			}
 		}
 	}
+	
+	private function backMenu():Void
+	{
+		trace("closeMenu");
+		GAnalytics.trackEvent(Std.string(Reg.level), "backMenu", "called", 1);
+		FlxG.switchState(new MenuState());
+	}
+	
 	 function onSignInGamesClick()
   {
     if(!googlePlay.games.isSignedIn())
